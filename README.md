@@ -1,6 +1,6 @@
-# mess
+# Mess App
 
-A new Flutter project.
+A mobile application for the hostel mess of IIIT Dharwad.
 
 ## Getting Started
 
