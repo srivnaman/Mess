@@ -41,7 +41,7 @@ class _registerState extends State<register> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Sign In",
+                          "Login",
                           textScaleFactor: 3,
                           style: TextStyle(
                             color: Colors.white,
@@ -122,14 +122,24 @@ class _registerState extends State<register> {
                                   ),
                                   SizedBox(
                                     height: 20,
+                                    //onPressed:
                                   ),
-                                  Text(
-                                    "Don't have an account? Register",
+                                  const Text(
+                                    "Don't have an account?",
                                     textScaleFactor: 1,
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
                                   ),
+                                  TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        "Register",
+                                        textScaleFactor: 1,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      )),
                                   SizedBox(
                                     height: 20,
                                   ),
