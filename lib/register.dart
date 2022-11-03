@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mess/signup.dart';
 
 class register extends StatefulWidget {
   @override
@@ -132,7 +133,11 @@ class _registerState extends State<register> {
                                     ),
                                   ),
                                   TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => const SignUp()),
+                                        );
+                                      },
                                       child: const Text(
                                         "Register",
                                         textScaleFactor: 1,

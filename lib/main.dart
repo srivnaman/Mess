@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mess/register.dart';
-
+import 'package:mess/menu.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -16,6 +16,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: register());
+        home: MenuPage());
   }
 }
