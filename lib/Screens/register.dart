@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mess/signup.dart';
+import 'package:mess/Screens/signup.dart';
 
 class register extends StatefulWidget {
   @override
@@ -27,6 +27,7 @@ class _registerState extends State<register> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
+                        // ignore: prefer_const_literals_to_create_immutables
                         colors: <Color>[
                           Color(0xFF000A12),
                           Color(0xFF4F5B62),
@@ -35,13 +36,13 @@ class _registerState extends State<register> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       top: 100,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Login",
                           textScaleFactor: 3,
                           style: TextStyle(
@@ -132,19 +133,7 @@ class _registerState extends State<register> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => const SignUp()),
-                                        );
-                                      },
-                                      child: const Text(
-                                        "Register",
-                                        textScaleFactor: 1,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      )),
+
                                   SizedBox(
                                     height: 20,
                                   ),

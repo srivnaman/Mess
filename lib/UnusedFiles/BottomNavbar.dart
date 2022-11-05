@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -19,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       child: CustomNavigationBar(
         iconSize: 30.0,
         selectedColor: Colors.white,
-        strokeColor: Colors.black,
+        strokeColor: Color.fromARGB(255, 40, 40, 40),
         unSelectedColor: Colors.white54,
         backgroundColor: Colors.black,
         borderRadius: const Radius.circular(20.0),
@@ -27,18 +26,21 @@ class _BottomNavBarState extends State<BottomNavBar> {
           CustomNavigationBarItem(
             icon: const Icon(
               (Icons.home),
+              
+            ),
+            
+          ),
+          CustomNavigationBarItem(
+            icon: const Icon(
+              Icons.restaurant_menu,
             ),
           ),
           CustomNavigationBarItem(
             icon: const Icon(
-              Icons.photo,
+              Icons.edit_note,
             ),
           ),
-          CustomNavigationBarItem(
-            icon: const Icon(
-              Icons.announcement_rounded,
-            ),
-          ),
+          
         ],
         currentIndex: _currentIndex,
         onTap: (index) {
