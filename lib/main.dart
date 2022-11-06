@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mess/register.dart';
-import 'package:mess/menu.dart';
+import 'package:mess/Screens/complaint.dart';
+import 'package:mess/Screens/home.dart';
+import 'package:mess/Screens/profile.dart';
+import 'package:mess/Screens/register.dart';
+import 'package:mess/Screens/menu.dart';
 void main() {
   runApp(const MyApp());
 }
