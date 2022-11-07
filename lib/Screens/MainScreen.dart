@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/widgets/GBottomNavBar.dart';
 
 import 'ScreenWidgets/complaint.dart';
@@ -66,10 +67,9 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
+          preferredSize: Size.fromHeight(50.h),
           child: AppBar(
               backgroundColor: Colors.transparent,
-              elevation: 0.0,
               title: _widgetNames.elementAt(_selectedIndex)),
         ),
         body: _widgetOptions.elementAt(_selectedIndex),

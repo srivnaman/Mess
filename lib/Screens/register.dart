@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/signup.dart';
 
 class register extends StatefulWidget {
@@ -18,7 +19,7 @@ class _registerState extends State<register> {
               extendBodyBehindAppBar: true,
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
-                elevation: 0.0,
+                elevation: 5.h,
               ),
               body: Stack(
                 children: [
@@ -35,8 +36,8 @@ class _registerState extends State<register> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(
-                      top: 100,
+                    margin:  EdgeInsets.only(
+                      top: 100.h,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,7 +50,7 @@ class _registerState extends State<register> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 20.h,
                         ),
                         Text(
                           "Welcome to the all in one mess app for IIIT Dharwad",
@@ -61,23 +62,23 @@ class _registerState extends State<register> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(
-                              top: 100,
+                              top: 100.h,
                             ),
                             decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(60.0),
-                                  topLeft: Radius.circular(60.0),
+                                  topRight: Radius.circular(60.h),
+                                  topLeft: Radius.circular(60.h),
                                 )),
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 50,
-                                        bottom: 10,
-                                        left: 50,
-                                        right: 50),
+                                    padding: EdgeInsets.only(
+                                        top: 50.h,
+                                        bottom: 10.h,
+                                        left: 50.w,
+                                        right: 50.w),
                                     child: TextField(
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
@@ -88,14 +89,14 @@ class _registerState extends State<register> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 20.h,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10,
-                                        bottom: 20,
-                                        left: 50,
-                                        right: 50),
+                                    padding: EdgeInsets.only(
+                                        top: 10.h,
+                                        bottom: 20.h,
+                                        left: 50.w,
+                                        right: 50.w),
                                     child: TextField(
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
@@ -106,10 +107,10 @@ class _registerState extends State<register> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 20.h,
                                   ),
                                   SizedBox(
-                                    width: 100,
+                                    width: 100.w,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         foregroundColor: Colors.white,
@@ -122,7 +123,7 @@ class _registerState extends State<register> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 20.h,
                                     //onPressed:
                                   ),
                                   const Text(
@@ -132,9 +133,8 @@ class _registerState extends State<register> {
                                       color: Colors.white,
                                     ),
                                   ),
-
                                   SizedBox(
-                                    height: 20,
+                                    height: 20.h,
                                   ),
                                 ],
                               ),

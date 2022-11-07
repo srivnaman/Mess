@@ -2,6 +2,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class GbottomNavBar extends StatefulWidget {
@@ -19,7 +20,7 @@ class _GbottomNavBarState extends State<GbottomNavBar> {
     return Container(
       color: Colors.black,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: GNav(
           backgroundColor: Colors.black,
           color: Colors.white,
@@ -27,30 +28,24 @@ class _GbottomNavBarState extends State<GbottomNavBar> {
           tabBackgroundColor:
               Color.fromARGB(255, 59, 59, 59), //Colors.blueGrey,
           haptic: true, // haptic feedback
-          tabBorderRadius: 20,
+          tabBorderRadius: 20.h,
           curve: Curves.easeInOutCubic, // tab animation curves
-          //duration: Duration(milliseconds: 10), // tab animation duration
-          iconSize: 27,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          iconSize: 27.w,
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
           gap: 8, // tab button hover color
-          // onTabChange: (){print(Pageindex);},
 
           tabs: [
             GButton(
               icon: Icons.home,
-              text: 'Home',
             ),
             GButton(
               icon: Icons.restaurant_menu,
-              text: 'Menu',
             ),
             GButton(
               icon: Icons.edit_note,
-              text: 'Register',
             ),
             GButton(
               icon: Icons.person,
-              text: 'Profile',
             ),
           ],
           selectedIndex: _selectedIndex,
