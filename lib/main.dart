@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mess/Screens/complaint.dart';
-import 'package:mess/Screens/home.dart';
-import 'package:mess/Screens/profile.dart';
+import 'package:mess/Screens/MainScreen.dart';
+import 'package:mess/Screens/ScreenWidgets/complaint.dart';
+import 'package:mess/Screens/ScreenWidgets/home.dart';
+import 'package:mess/Screens/ScreenWidgets/profile.dart';
 import 'package:mess/Screens/register.dart';
-import 'package:mess/Screens/menu.dart';
+import 'package:mess/Screens/ScreenWidgets/menu.dart';
+import 'package:mess/widgets/GBottomNavBar.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,6 +22,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MenuPage());
+        // routes: {
+        //   Home.routeName:(ctx)=>Home(),
+        //   Profile.routeName:(ctx)=>Profile(),
+        //   Complaint.routeName:(ctx)=>Complaint(),
+        //   MenuPage.routeName:(ctx)=>MenuPage(),
+        // },
+        home: MainScreen());
   }
 }

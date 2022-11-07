@@ -27,7 +27,6 @@ class _registerState extends State<register> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        // ignore: prefer_const_literals_to_create_immutables
                         colors: <Color>[
                           Color(0xFF000A12),
                           Color(0xFF4F5B62),
