@@ -10,7 +10,8 @@ import 'ScreenWidgets/menu.dart';
 import 'ScreenWidgets/profile.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({Key? key}) : super(key: key);
+  //const MainScreen({super.key});
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
