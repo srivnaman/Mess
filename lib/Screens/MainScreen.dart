@@ -9,11 +9,8 @@ import 'ScreenWidgets/complaint.dart';
 import 'ScreenWidgets/home.dart';
 import 'ScreenWidgets/menu.dart';
 import 'ScreenWidgets/profile.dart';
-//import 'ScreenWidgets/complaintM.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-  //const MainScreen({super.key});
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
@@ -23,7 +20,8 @@ class _MainScreenState extends State<MainScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     Home(),
     MenuPage(),
-    Complaint(), //ComplaintM(),
+    Complaint(),
+    // ComplaintM(),
     Profile(),
   ];
 
@@ -70,10 +68,17 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.h),
+          preferredSize: Size.fromHeight(30.h),
           child: AppBar(
-              backgroundColor: Colors.transparent,
-              title: _widgetNames.elementAt(_selectedIndex)),
+            backgroundColor: Color.fromARGB(0, 154, 37, 37),
+            title: Column(
+              children: [
+                SizedBox(height: 15.h),
+                _widgetNames.elementAt(_selectedIndex),
+              ],
+            ),
+            toolbarHeight: 40.h,
+          ),
         ),
         body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar:

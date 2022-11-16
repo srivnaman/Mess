@@ -42,14 +42,14 @@ class _MenuPageState extends State<MenuPage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 40.h,
+                  height: 30.h,
                 ),
                 Text(
                   "Select Day",
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
                 DropDown(
                   items: menu,
@@ -57,14 +57,14 @@ class _MenuPageState extends State<MenuPage> {
                   text: "Select Day",
                 ),
                 SizedBox(
-                  height: 30.h,
+                  height: 20.h,
                 ),
                 Text(
                   "Select Meal",
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
                 DropDown(
                   items: items,

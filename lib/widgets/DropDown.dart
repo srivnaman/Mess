@@ -25,12 +25,12 @@ class _DropDownState extends State<DropDown> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.h),
+          borderRadius: BorderRadius.circular(10.r),
           color: Color.fromARGB(255, 255, 255, 255)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton2(
           isExpanded: true,
-          hint: Text(widget.text, style: TextStyle(fontSize: 15)),
+          hint: Text(widget.text, style: TextStyle(fontSize: 15.sp)),
           value: widget.categoryValue,
           items: widget.items.map(
             (String items) {
@@ -43,7 +43,7 @@ class _DropDownState extends State<DropDown> {
               );
             },
           ).toList(),
-          dropdownMaxHeight: 200.h,
+          dropdownMaxHeight: 140.h,
           dropdownDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.r),
           ),
