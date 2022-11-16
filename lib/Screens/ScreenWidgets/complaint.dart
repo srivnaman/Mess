@@ -35,9 +35,9 @@ class _ComplaintState extends State<Complaint> {
     getUserData();
   }
 
-  void _submitToDB() async {
-    final curUser = FirebaseAuth.instance.currentUser;
+  final curUser = FirebaseAuth.instance.currentUser;
 
+  void _submitToDB() async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(curUser!.uid)
@@ -143,6 +143,7 @@ class _ComplaintState extends State<Complaint> {
                         _isProcessing = true;
                       });
                       myComplaints.add({
+                        'Id': curUser!.uid + myComplaints.length.toString(),
                         'Complaint': complaintController.text,
                         'Type': complaintType
                       });
