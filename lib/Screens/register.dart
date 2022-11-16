@@ -36,7 +36,7 @@ class _registerState extends State<register> {
                     ),
                   ),
                   Container(
-                    margin:  EdgeInsets.only(
+                    margin: EdgeInsets.only(
                       top: 100.h,
                     ),
                     child: Column(
@@ -113,9 +113,9 @@ class _registerState extends State<register> {
                                     width: 100.w,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
+                                        surfaceTintColor: Colors.white,
 
-                                        backgroundColor:
+                                        shadowColor:
                                             Color(0xFF3F5C94), // foreground
                                       ),
                                       onPressed: () => {},
