@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mess/Screens/MainScreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Screens/register.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
             //   Complaint.routeName:(ctx)=>Complaint(),
             //   MenuPage.routeName:(ctx)=>MenuPage(),
             // },
-            home: MainScreen());
+            home: register());
       },
       designSize: Size(361, 428),
     );

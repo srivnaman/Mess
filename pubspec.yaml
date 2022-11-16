@@ -29,6 +29,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   custom_navigation_bar: ^0.8.2
+  firebase_auth: ^4.1.2
+  firebase_core: ^2.2.0
 
 
   flutter:
