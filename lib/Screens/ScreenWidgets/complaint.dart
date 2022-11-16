@@ -6,7 +6,6 @@ import 'package:mess/widgets/DropDown.dart';
 
 class Complaint extends StatefulWidget {
   static const routeName = '/complaint';
-  const Complaint({Key? key}) : super(key: key);
 
   @override
   State<Complaint> createState() => _ComplaintState();
@@ -36,7 +35,7 @@ class _ComplaintState extends State<Complaint> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 80.h,
+                    height: 40.h,
                   ),
                   Row(
                     children: [
@@ -82,7 +81,7 @@ class _ComplaintState extends State<Complaint> {
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         hintText: 'Enter a full query',
-    
+
                         /*decoration: InputDecoration(
                         
                         border: OutlineInputBorder(borderRadius: BorderRadius(20)),
