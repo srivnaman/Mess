@@ -29,7 +29,15 @@ class _MenuPageState extends State<MenuPage> {
     'Friday',
     'Saturday'
   ];
-  String? selectedValue;
+  String? selectedDay;
+  String? selectedMeal;
+  void handleDay(value) {
+    selectedDay = value;
+  }
+
+  void handleMeal(value) {
+    selectedMeal = value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +61,7 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 DropDown(
                   items: menu,
-                  categoryValue: categoryValue,
+                  handleDropDown: handleDay,
                   text: "Select Day",
                 ),
                 SizedBox(
@@ -68,7 +76,7 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 DropDown(
                   items: items,
-                  categoryValue: categoryValue,
+                  handleDropDown: handleMeal,
                   text: "Select Meal",
                 ),
               ],

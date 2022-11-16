@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/models/complaint_model.dart';
@@ -32,6 +34,16 @@ class _ComplaintState extends State<ComplaintM> {
         titleOfComplaint: 'Test 2',
         msgOfComplaint: 'Test 2 Success')
   ];
+
+  void getUserData() async {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
