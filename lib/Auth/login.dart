@@ -117,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 height: 40.h,
                                               ),
                                               CustomForm(
+                                                isPasswordField:false,
                                                   hintTextValue: "Email",
                                                   TextController:
                                                       _emailTextController),
@@ -124,6 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 height: 20.h,
                                               ),
                                               CustomForm(
+                                                isPasswordField: true,
                                                   hintTextValue: "Password",
                                                   TextController:
                                                       _passwordTextController),
