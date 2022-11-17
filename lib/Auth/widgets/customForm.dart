@@ -8,15 +8,17 @@ class CustomForm extends StatelessWidget {
 
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
-
+  var isPasswordField;
   final String hintTextValue;
   CustomForm({
     required this.hintTextValue,
     required this.TextController,
+    required this.isPasswordField,
   });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: isPasswordField,
       controller: TextController,
       focusNode: _focusEmail,
       validator: (value) {
