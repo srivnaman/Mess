@@ -130,76 +130,98 @@ class _LoginPageState extends State<LoginPage> {
                                                   TextController:
                                                       _passwordTextController),
                                               SizedBox(height: 15.h),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    width: 100.w,
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Color(0xFF3F5C94),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.r),
-                                                        ),
-                                                      ),
-                                                      onPressed: () async {
-                                                        _focusEmail.unfocus();
-                                                        _focusPassword
-                                                            .unfocus();
-
-                                                        if (_formKey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          setState(() {
-                                                            _isProcessing =
-                                                                true;
-                                                          });
-
-                                                          User? user =
-                                                              await FireAuth
-                                                                  .signInUsingEmailPassword(
-                                                            email:
-                                                                _emailTextController
-                                                                    .text,
-                                                            password:
-                                                                _passwordTextController
-                                                                    .text,
-                                                          );
-
-                                                          setState(() {
-                                                            _isProcessing =
-                                                                false;
-                                                          });
-
-                                                          if (user != null) {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushReplacement(
-                                                              MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        MainScreen(),
+                                              _isProcessing == false
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                          width: 100.w,
+                                                          child: ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFF3F5C94),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.r),
                                                               ),
-                                                            );
-                                                          }
-                                                        }
-                                                      },
-                                                      child: Text(
-                                                        'Log In',
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFFFFFFFF)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              _focusEmail
+                                                                  .unfocus();
+                                                              _focusPassword
+                                                                  .unfocus();
+
+                                                              if (_formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                setState(() {
+                                                                  _isProcessing =
+                                                                      true;
+                                                                });
+
+                                                                User? user =
+                                                                    await FireAuth
+                                                                        .signInUsingEmailPassword(
+                                                                  email:
+                                                                      _emailTextController
+                                                                          .text,
+                                                                  password:
+                                                                      _passwordTextController
+                                                                          .text,
+                                                                );
+
+                                                                setState(() {
+                                                                  _isProcessing =
+                                                                      false;
+                                                                });
+
+                                                                if (user !=
+                                                                    null) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pushReplacement(
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              MainScreen(),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              }
+                                                            },
+                                                            child: Text(
+                                                              'Log In',
+                                                              style: TextStyle(
+                                                                  color: Color(
+                                                                      0xFFFFFFFF)),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : CircularProgressIndicator(),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Opacity(
+                                                opacity: 0.5,
+                                                child: Image.asset(
+                                                  'Assets/Images/spoon.png',
+                                                  height: 75.h,
+                                                  color: Color(0xFF4F5B62),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
                                               ),
                                               Row(
                                                 mainAxisAlignment:

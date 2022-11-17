@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, constant_identifier_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/ScreenWidgets/complaintM.dart';
@@ -16,14 +18,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String name = "unknown";
+  String role = "Faculty";
+  void getUserData() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    final currentUserData =
+        await FirebaseFirestore.instance.doc('users/' + uid!).get();
+
+    name = currentUserData['name'];
+    role = currentUserData['role'];
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    MenuPage(),
-    // Complaint(),
-    ComplaintM(),
-    Profile(),
-  ];
 
   static const TextStyle TitleStyle = TextStyle(color: Colors.white);
 
@@ -54,6 +68,13 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetOptions = <Widget>[
+      Home(),
+      MenuPage(),
+      role == 'Mess Manager' ? ComplaintM() : Complaint(),
+      Profile(),
+    ];
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

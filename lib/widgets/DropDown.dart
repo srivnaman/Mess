@@ -5,33 +5,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DropDown extends StatefulWidget {
-  var selectedValue;
-  var categoryValue;
+  Function handleDropDown;
   var text;
   final List<String> items;
+  Color dropDownColor;
 
-  DropDown({
-    required this.items,
-    required this.categoryValue,
-    required this.text
-  });
+  DropDown(
+      {required this.items,
+      required this.handleDropDown,
+      required this.text,
+      this.dropDownColor = Colors.white});
   @override
   State<DropDown> createState() => _DropDownState();
 }
 
 class _DropDownState extends State<DropDown> {
+  var selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
-          color: Color.fromARGB(255, 255, 255, 255)),
+          color: widget.dropDownColor),
       child: DropdownButtonHideUnderline(
         child: DropdownButton2(
+          value: selectedValue,
           isExpanded: true,
           hint: Text(widget.text, style: TextStyle(fontSize: 15.sp)),
-          value: widget.categoryValue,
           items: widget.items.map(
             (String items) {
               return DropdownMenuItem(
@@ -50,7 +52,8 @@ class _DropDownState extends State<DropDown> {
           onChanged: (val) {
             setState(
               () {
-                widget.categoryValue = val.toString();
+                selectedValue = val.toString();
+                widget.handleDropDown(selectedValue);
               },
             );
           },

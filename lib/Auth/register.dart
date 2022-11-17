@@ -5,9 +5,10 @@ import 'package:mess/Auth/widgets/customForm.dart';
 import 'package:mess/Screens/MainScreen.dart';
 import 'package:mess/Auth/login.dart';
 import 'package:mess/Auth/fireAuth.dart';
-import 'package:mess/Auth/validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import '../widgets/DropDown.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _registerFormKey = GlobalKey<FormState>();
   var _isProcessing = false;
+  var role = "";
 
   final _nameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
@@ -26,6 +28,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
 
+  void _handleRole(var value) {
+    role = value;
+  }
+
+  List<String> roleList = ["Mess Manager", "Faculty", "Student"];
+
   void _submitToDB() async {
     final curUser = FirebaseAuth.instance.currentUser;
     final name = _nameTextController.text;
@@ -33,6 +41,8 @@ class _RegisterPageState extends State<RegisterPage> {
     await FirebaseFirestore.instance.collection('users').doc(curUser!.uid).set(
       {
         'name': name,
+        'role': role,
+        'complaints': [],
       },
     );
   }
@@ -143,10 +153,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                                       _emailTextController),
                                               SizedBox(height: 20.h),
                                               CustomForm(
-                                                isPasswordField: true,
+                                                 isPasswordField: true,
                                                   hintTextValue: "Password",
                                                   TextController:
                                                       _passwordTextController),
+                                              SizedBox(height: 20.h),
+                                              DropDown(
+                                                items: roleList,
+                                                handleDropDown: _handleRole,
+                                                text: "Choose your role",
+                                                dropDownColor:
+                                                    Color(0xFF4F5B62),
+                                              ),
                                               SizedBox(height: 15.h),
                                               _isProcessing
                                                   ? CircularProgressIndicator()
@@ -211,6 +229,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                                                 0xFFFFFFFF)),
                                                       ),
                                                     ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
