@@ -144,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               SizedBox(height: 20.h),
                                               CustomForm(
                                                 isPasswordField: true,
-                                                  hintTextValue: "Passwor",
+                                                  hintTextValue: "Password",
                                                   TextController:
                                                       _passwordTextController),
                                               SizedBox(height: 15.h),
