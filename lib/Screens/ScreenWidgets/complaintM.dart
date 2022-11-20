@@ -24,13 +24,11 @@ class _ComplaintState extends State<ComplaintM> {
     ComplaintModel(
         idOfComplaint: "1",
         typeOfComplaint: 'Food Quality',
-        titleOfComplaint: 'Test 1',
-        msgOfComplaint: 'Test 1 Success'),
+        msgOfComplaint: 'Test 1 Success has been Checked'),
     ComplaintModel(
         idOfComplaint: "2",
         typeOfComplaint: 'Food Serving',
-        titleOfComplaint: 'Test 2',
-        msgOfComplaint: 'Test 2 Success')
+        msgOfComplaint: 'Test 2 Success has been Checked')
   ];
 
   @override
