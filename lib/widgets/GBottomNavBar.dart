@@ -20,7 +20,7 @@ class _GbottomNavBarState extends State<GbottomNavBar> {
     return Container(
       color: Colors.black,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
         child: GNav(
           backgroundColor: Colors.black,
           color: Colors.white,
@@ -28,11 +28,10 @@ class _GbottomNavBarState extends State<GbottomNavBar> {
           tabBackgroundColor:
               Color.fromARGB(255, 59, 59, 59), //Colors.blueGrey,
           haptic: true, // haptic feedback
-          tabBorderRadius: 20.h,
+          tabBorderRadius: 20.r,
           curve: Curves.easeInOutCubic, // tab animation curves
-          iconSize: 27.w,
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
-          gap: 8, // tab button hover color
+          iconSize: 25.r,
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
 
           tabs: [
             GButton(

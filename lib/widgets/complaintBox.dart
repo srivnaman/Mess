@@ -21,24 +21,25 @@ class ComplaintBox extends StatelessWidget {
                   SizedBox(height: 10.h),
                 ],
               )
-            :
-            //height: 100,
-            // decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(20.r),
-            //     color: Colors.white),
-            ListView.builder(itemBuilder: (ctx, index) {
-                return Card(
-                  elevation: 7,
-                  child: ListTile(
-                    leading: Icon(Icons.food_bank_rounded),
-                    title: Text(
-                        '${complaints[index].msgOfComplaint.substring(0, 10)}...'),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {},
-                    ),
-                  ),
-                );
-              }));
+            : Container(
+                //height: 100,
+                // decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(20.r),
+                //     color: Colors.white),
+                child: ListView.builder(
+                    itemCount: complaints.length,
+                    itemBuilder: (ctx, index) {
+                      return Card(
+                        elevation: 7,
+                        child: ListTile(
+                          leading: Icon(Icons.food_bank_rounded),
+                          title: Text(complaints[index].titleOfComplaint),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                    })));
   }
 }

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mess/Auth/login.dart';
 import 'package:mess/Screens/MainScreen.dart';
-import 'package:mess/Screens/ScreenWidgets/complaint.dart';
-import 'package:mess/Screens/ScreenWidgets/home.dart';
-import 'package:mess/Screens/ScreenWidgets/profile.dart';
-import 'package:mess/Screens/register.dart';
-import 'package:mess/Screens/ScreenWidgets/menu.dart';
-import 'package:mess/widgets/GBottomNavBar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'Auth/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +12,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -31,8 +27,9 @@ class MyApp extends StatelessWidget {
             //   Complaint.routeName:(ctx)=>Complaint(),
             //   MenuPage.routeName:(ctx)=>MenuPage(),
             // },
-            home: MainScreen());
+            home: LoginPage());
       },
+      designSize: Size(361, 428),
     );
   }
 }
