@@ -8,14 +8,13 @@ class ComplaintBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 149.h,
+    return Flexible(
         child: complaints.isEmpty
             ? Column(
                 children: [
                   SizedBox(height: 30.h),
                   Text(
-                    'Awesome!! \n There are no complaints.',
+                    'Awesome!!! \n There are no complaints.',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
@@ -34,7 +33,9 @@ class ComplaintBox extends StatelessWidget {
                         elevation: 7,
                         child: ListTile(
                           leading: Icon(Icons.food_bank_rounded),
-                          title: Text(complaints[index].titleOfComplaint),
+                          title: Text(complaints[index]
+                              .msgOfComplaint
+                              .substring(0, 10)),
                           trailing: IconButton(
                             icon: Icon(Icons.delete),
                             onPressed: () {},

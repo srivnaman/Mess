@@ -38,6 +38,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   int _selectedIndex = 0;
+  static List<Widget> _widgetOptions = <Widget>[
+    Home(),
+    MenuPage(),
+    Complaint(), //ComplaintM(),
+    Profile(),
+  ];
 
   static const TextStyle TitleStyle = TextStyle(color: Colors.white);
 
