@@ -15,29 +15,20 @@ class ComplaintM extends StatefulWidget {
   State<ComplaintM> createState() => _ComplaintState();
 }
 
+int numFoodQuality = 0;
+int numFoodServing = 0;
+int numMessCleanliness = 0;
+int numOthers = 0;
+
 class _ComplaintState extends State<ComplaintM> {
-  Stream<List<UserModel>> readUsers() => FirebaseFirestore.instance
-      .collection('users')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => UserModel.fromJson(doc.data())).toList());
   List complaintCharts = [
-    {'title': 'Food Quality Complaints', 'number': 1},
-    {'title': 'Food Serving Complaints', 'number': 2},
-    {'title': 'Mess Cleanliness Complaints', 'number': 3},
-    {'title': 'Other Issues Complaints', 'number': 5}
+    {'title': 'Food Quality Complaints', 'number': numFoodQuality},
+    {'title': 'Food Serving Complaints', 'number': numFoodServing},
+    {'title': 'Mess Cleanliness Complaints', 'number': numMessCleanliness},
+    {'title': 'Other Issues Complaints', 'number': numOthers}
   ];
 
-  List<ComplaintModel> _userComplaints = [
-    ComplaintModel(
-        idOfComplaint: "1",
-        typeOfComplaint: 'Food Quality',
-        msgOfComplaint: 'Test 1 Success has been Checked'),
-    ComplaintModel(
-        idOfComplaint: "2",
-        typeOfComplaint: 'Food Serving',
-        msgOfComplaint: 'Test 2 Success has been Checked')
-  ];
+  List<ComplaintModel> _userComplaints = [];
 
   void getUserData() async {
     setState(() {});
@@ -51,56 +42,78 @@ class _ComplaintState extends State<ComplaintM> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            Divider(color: Color.fromARGB(255, 255, 255, 255)),
-            Container(
-              width: 280.w,
+    Stream<List<ComplaintModel>> readComplaints() => FirebaseFirestore.instance
+        .collection('users')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => UserModel.fromJson(doc.data()))
+            .toList());
+    return StreamBuilder<List<ComplaintModel>>(
+        stream: readComplaints(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            for (ComplaintModel i in snapshot.data!) {
+              if (i.typeOfComplaint == 'Food quality issue')
+                numFoodQuality++;
+              else if (i.typeOfComplaint == 'Food serving issue')
+                numFoodServing++;
+              else if (i.typeOfComplaint == 'Cleanliness issue')
+                numMessCleanliness++;
+              else if (i.typeOfComplaint == 'Other') numOthers++;
+              _userComplaints.add(i);
+            }
+          }
+          return SingleChildScrollView(
+            child: Container(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 70.h,
-                  ),
-                  Row(
-                    children: complaintCharts
-                        .map((cmp) =>
-                            ComplaintChart(cmp['title'], cmp['number']))
-                        .toList(),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
+                  Divider(color: Color.fromARGB(255, 255, 255, 255)),
                   Container(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Text(
-                            "Complaint History",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontStyle: FontStyle.italic),
-                          ),
-                        ],
-                      )),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  ComplaintBox(_userComplaints),
+                    width: 280.w,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 70.h,
+                        ),
+                        Row(
+                          children: complaintCharts
+                              .map((cmp) =>
+                                  ComplaintChart(cmp['title'], cmp['number']))
+                              .toList(),
+                        ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        Container(
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Complaint History",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                              ],
+                            )),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        ComplaintBox(_userComplaints),
 
-                  /*decoration: InputDecoration(
-                        
-                        border: OutlineInputBorder(borderRadius: BorderRadius(20)),
-                        hintText: 'Enter a full query',
-                      ),*/
+                        /*decoration: InputDecoration(
+                            
+                            border: OutlineInputBorder(borderRadius: BorderRadius(20)),
+                            hintText: 'Enter a full query',
+                          ),*/
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 }
