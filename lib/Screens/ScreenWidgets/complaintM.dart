@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/models/complaint_model.dart';
 import 'package:mess/widgets/complaintBox.dart';
 import 'package:mess/widgets/complaintChart.dart';
+import '../../models/User.dart';
 
 class ComplaintM extends StatefulWidget {
   static const routeName = '/complaintM';
@@ -15,6 +16,11 @@ class ComplaintM extends StatefulWidget {
 }
 
 class _ComplaintState extends State<ComplaintM> {
+  Stream<List<UserModel>> readUsers() => FirebaseFirestore.instance
+      .collection('users')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => UserModel.fromJson(doc.data())).toList());
   List complaintCharts = [
     {'title': 'Food Quality Complaints', 'number': 1},
     {'title': 'Food Serving Complaints', 'number': 2},
