@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Auth/register.dart';
+import 'package:mess/Auth/verifyEmail.dart';
 import 'package:mess/Auth/widgets/customForm.dart';
 import 'package:mess/Screens/MainScreen.dart';
 import 'package:mess/Auth/login.dart';
@@ -17,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
+  var _isVerifying = false;
   var _isProcessing = false;
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
@@ -29,7 +31,13 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {}
+    if (user!.emailVerified) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MainScreen(),
+        ),
+      );
+    }
     return firebaseApp;
   }
 
@@ -109,144 +117,161 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             left: 35.w, right: 35.w),
-                                        child: Form(
-                                          key: _formKey,
-                                          child: Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 40.h,
-                                              ),
-                                              CustomForm(
-                                                isPasswordField:false,
-                                                  hintTextValue: "Email",
-                                                  TextController:
-                                                      _emailTextController),
-                                              SizedBox(
-                                                height: 20.h,
-                                              ),
-                                              CustomForm(
-                                                isPasswordField: true,
-                                                  hintTextValue: "Password",
-                                                  TextController:
-                                                      _passwordTextController),
-                                              SizedBox(height: 15.h),
-                                              _isProcessing == false
-                                                  ? Row(
+                                        child: _isVerifying
+                                            ? VerifyEmail()
+                                            : Form(
+                                                key: _formKey,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 40.h,
+                                                    ),
+                                                    CustomForm(
+                                                        isPasswordField: false,
+                                                        hintTextValue: "Email",
+                                                        TextController:
+                                                            _emailTextController),
+                                                    SizedBox(
+                                                      height: 20.h,
+                                                    ),
+                                                    CustomForm(
+                                                        isPasswordField: true,
+                                                        hintTextValue:
+                                                            "Password",
+                                                        TextController:
+                                                            _passwordTextController),
+                                                    SizedBox(height: 15.h),
+                                                    _isProcessing == false
+                                                        ? Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                width: 100.w,
+                                                                child:
+                                                                    ElevatedButton(
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    backgroundColor:
+                                                                        Color(
+                                                                            0xFF3F5C94),
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5.r),
+                                                                    ),
+                                                                  ),
+                                                                  onPressed:
+                                                                      () async {
+                                                                    _focusEmail
+                                                                        .unfocus();
+                                                                    _focusPassword
+                                                                        .unfocus();
+
+                                                                    if (_formKey
+                                                                        .currentState!
+                                                                        .validate()) {
+                                                                      setState(
+                                                                          () {
+                                                                        _isProcessing =
+                                                                            true;
+                                                                      });
+
+                                                                      User?
+                                                                          user =
+                                                                          await FireAuth
+                                                                              .signInUsingEmailPassword(
+                                                                        email: _emailTextController
+                                                                            .text,
+                                                                        password:
+                                                                            _passwordTextController.text,
+                                                                      );
+
+                                                                      setState(
+                                                                          () {
+                                                                        _isProcessing =
+                                                                            false;
+                                                                      });
+
+                                                                      if ((!user!
+                                                                              .emailVerified) &
+                                                                          (user !=
+                                                                              null)) {
+                                                                        _isVerifying =
+                                                                            true;
+                                                                        setState(
+                                                                            () {});
+                                                                      }
+
+                                                                      if (user!
+                                                                          .emailVerified) {
+                                                                        Navigator.of(context)
+                                                                            .pushReplacement(
+                                                                          MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                MainScreen(),
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  child: Text(
+                                                                    'Log In',
+                                                                    style: TextStyle(
+                                                                        color: Color(
+                                                                            0xFFFFFFFF)),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        : CircularProgressIndicator(),
+                                                    SizedBox(
+                                                      height: 10.h,
+                                                    ),
+                                                    Opacity(
+                                                      opacity: 0.5,
+                                                      child: Image.asset(
+                                                        'Assets/Images/spoon.png',
+                                                        height: 75.h,
+                                                        color:
+                                                            Color(0xFF4F5B62),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10.h,
+                                                    ),
+                                                    Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        Container(
-                                                          width: 100.w,
-                                                          child: ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              backgroundColor:
-                                                                  Color(
-                                                                      0xFF3F5C94),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5.r),
-                                                              ),
-                                                            ),
-                                                            onPressed:
-                                                                () async {
-                                                              _focusEmail
-                                                                  .unfocus();
-                                                              _focusPassword
-                                                                  .unfocus();
-
-                                                              if (_formKey
-                                                                  .currentState!
-                                                                  .validate()) {
-                                                                setState(() {
-                                                                  _isProcessing =
-                                                                      true;
-                                                                });
-
-                                                                User? user =
-                                                                    await FireAuth
-                                                                        .signInUsingEmailPassword(
-                                                                  email:
-                                                                      _emailTextController
-                                                                          .text,
-                                                                  password:
-                                                                      _passwordTextController
-                                                                          .text,
-                                                                );
-
-                                                                setState(() {
-                                                                  _isProcessing =
-                                                                      false;
-                                                                });
-
-                                                                if (user !=
-                                                                    null) {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pushReplacement(
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              MainScreen(),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                              }
+                                                        Text(
+                                                          "Don't have an acount?",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pushReplacement(
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            RegisterPage()),
+                                                              );
                                                             },
                                                             child: Text(
-                                                              'Log In',
-                                                              style: TextStyle(
-                                                                  color: Color(
-                                                                      0xFFFFFFFF)),
-                                                            ),
-                                                          ),
-                                                        ),
+                                                                "Register"))
                                                       ],
                                                     )
-                                                  : CircularProgressIndicator(),
-                                              SizedBox(
-                                                height: 10.h,
-                                              ),
-                                              Opacity(
-                                                opacity: 0.5,
-                                                child: Image.asset(
-                                                  'Assets/Images/spoon.png',
-                                                  height: 75.h,
-                                                  color: Color(0xFF4F5B62),
+                                                  ],
                                                 ),
                                               ),
-                                              SizedBox(
-                                                height: 10.h,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "Don't have an acount?",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pushReplacement(
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  RegisterPage()),
-                                                        );
-                                                      },
-                                                      child: Text("Register"))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ),

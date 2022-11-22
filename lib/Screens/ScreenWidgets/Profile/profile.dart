@@ -1,7 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../Auth/login.dart';
 
 class Profile extends StatelessWidget {
   static const routeName = '/profile';
@@ -33,6 +36,17 @@ class Profile extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
+                  TextButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                      child: Text("Log out")),
                   Text(
                     'Faculty Profile',
                     textAlign: TextAlign.center,

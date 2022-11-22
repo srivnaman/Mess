@@ -23,6 +23,9 @@ class Validator {
       return 'Email can\'t be empty';
     } else if (!emailRegExp.hasMatch(email)) {
       return 'Enter a correct email';
+    } else if (email.substring(email.length - 13, email.length) !=
+        'iiitdwd.ac.in') {
+      return 'Please enter your institute email';
     }
 
     return null;
