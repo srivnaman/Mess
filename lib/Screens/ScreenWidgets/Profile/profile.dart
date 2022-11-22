@@ -3,15 +3,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../Auth/login.dart';
+import 'package:mess/Auth/login.dart';
 
 class Profile extends StatelessWidget {
   static const routeName = '/profile';
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
+      //fit: StackFit.expand,
       children: [
         Scaffold(
           backgroundColor: Colors.transparent,
@@ -36,34 +35,27 @@ class Profile extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  TextButton(
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
 
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          ),
-                        );
-                      },
-                      child: Text("Log out")),
-                  Text(
-                    'Faculty Profile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.sp,
-                      //fontFamily: 'Nisebuschgardens',
-                    ),
+                  Center(
+                  child:
+                    CircleAvatar(
+                           backgroundImage: AssetImage('Assets/Images/userAvatar2.png'),
+                           radius: 60.r,
+                           //child: Text('Eevee'),
+                           //foregroundColor: Colors.red,
+                         ),
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
-                  ProfilePhotoContainer(),
+                  //ProfilePhotoContainer(),
+                  
                   SizedBox(
                     height: 10.h,
                   ),
-                  MonthlyDashboard(20.h, 500.w),
+                  SignoutOption(),
+
+                  //MonthlyDashboard(20.h, 500.w),
                 ],
               ),
             ),
@@ -74,14 +66,43 @@ class Profile extends StatelessWidget {
   }
 }
 
+class SignoutOption extends StatelessWidget {
+  const SignoutOption({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: () async{
+            await FirebaseAuth.instance.signOut();
+          Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) =>LoginPage(),),
+          );
+          },
+          child: Container(child: Text("Log Out"))),
+      ],
+    );
+    
+    /*TextButton (
+      onPressed: () async{
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginPage(),),
+      ),
+      }, */
+      //Widget: Widget)
+  }
+}
+
+
 class ProfilePhotoContainer extends Profile {
   Widget build(BuildContext context) {
     return Container(
       height: 200.h,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          double innerHeight = constraints.maxHeight;
-          double innerWidth = constraints.maxWidth;
           return Stack(
             children: [
               Positioned(
@@ -118,17 +139,28 @@ class ProfilePhotoContainer extends Profile {
                 top: 0,
                 left: 0,
                 right: 0,
-                child: Center(
-                  child: Container(
-                    height: 80.h,
-                    width: 80.h,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2zZym9e7cviX9dFlBzpXxq3EcYunn1RG-MkT876kvJY9G-59hTF7zPGrtxrPBLhzsHTM&usqp=CAU'))),
-                  ),
+                child:Center(
+                  child:
+                    CircleAvatar(
+                           backgroundImage: NetworkImage('https://nextluxury.com/wp-content/uploads/funny-profile-pictures-10.jpg'),
+                           radius: 100.r,
+                           //child: Text('Eevee'),
+                           //foregroundColor: Colors.red,
+                         ),
                 ),
+                
+                
+                // child: Center(
+                //   child: Container(
+                //     height: 80.h,
+                //     width: 80.h,
+                //     decoration: BoxDecoration(
+                //         shape: BoxShape.circle,
+                //         image: DecorationImage(
+                //             image: NetworkImage(
+                //                 'https://nextluxury.com/wp-content/uploads/funny-profile-pictures-10.jpg'))),
+                //   ),
+                // ),
               ),
             ],
           );
@@ -138,7 +170,7 @@ class ProfilePhotoContainer extends Profile {
   }
 }
 
-class MonthlyDashboard extends StatelessWidget {
+/*class MonthlyDashboard extends StatelessWidget {
   var thisHeight;
   var thisWidth;
 
@@ -197,6 +229,7 @@ class MonthlyDashboard extends StatelessWidget {
     );
   }
 }
+*/
 
 // Orders and pending
 /*Row(
