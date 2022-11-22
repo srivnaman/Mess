@@ -11,101 +11,83 @@ class ComplaintM extends StatefulWidget {
 }
 
 class _ComplaintState extends State<ComplaintM> {
-  int numFoodQuality = 0;
-  int numFoodServing = 0;
-  int numMessCleanliness = 0;
-  int numOthers = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    getComplaintCount();
-  }
-
-  void getComplaintCount() async {
-    final complaintCountDocument = await FirebaseFirestore.instance
-        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
-        .get();
-    numFoodQuality = complaintCountDocument['Cleanliness issue'];
-    numMessCleanliness= complaintCountDocument['Food quality issue'];
-    numFoodServing = complaintCountDocument['Food serving issue'];
-    numOthers = complaintCountDocument['Other'];
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('complaints').snapshots(),
-        builder: (context, snapshot) {
-          getComplaintCount();
-          return Padding(
-            padding: EdgeInsets.only(left: 30.w, right: 30.w),
-            child: Container(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  ComplaintChart(
-                      numFoodQuality: numFoodQuality,
-                      numFoodServing: numFoodServing,
-                      numMessCleanliness: numMessCleanliness,
-                      numOthers: numOthers),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Text(
-                    "Complaint History",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.sp,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  snapshot.hasData
-                      ? Expanded(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              DocumentSnapshot doc = snapshot.data!.docs[index];
+    return isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : StreamBuilder<QuerySnapshot>(
+            stream:
+                FirebaseFirestore.instance.collection('complaints').snapshots(),
+            builder: (context, snapshot) {
+              return Padding(
+                padding: EdgeInsets.only(left: 30.w, right: 30.w),
+                child: Container(
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      ComplaintChart(),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Text(
+                        "Complaint History",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.sp,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      snapshot.hasData
+                          ? Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  DocumentSnapshot doc =
+                                      snapshot.data!.docs[index];
 
-                              return Card(
-                                elevation: 7,
-                                child: ListTile(
-                                  leading: Icon(Icons.food_bank_rounded),
-                                  title: Text(
-                                    doc['complaint'],
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {},
-                                  ),
+                                  return Card(
+                                    elevation: 7,
+                                    child: ListTile(
+                                      leading: Icon(Icons.food_bank_rounded),
+                                      title: Text(
+                                        doc['complaint'],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                SizedBox(height: 30.h),
+                                Text(
+                                  'Awesome!!! \n There are no complaints.',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                  textAlign: TextAlign.center,
                                 ),
-                              );
-                            },
-                          ),
-                        )
-                      : Column(
-                          children: [
-                            SizedBox(height: 30.h),
-                            Text(
-                              'Awesome!!! \n There are no complaints.',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 10.h),
-                          ],
-                        )
-                ],
-              ),
-            ),
-          );
-        });
+                                SizedBox(height: 10.h),
+                              ],
+                            )
+                    ],
+                  ),
+                ),
+              );
+            });
   }
 }

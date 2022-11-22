@@ -14,6 +14,7 @@ class Complaint extends StatefulWidget {
 }
 
 class _ComplaintState extends State<Complaint> {
+  bool isSubmitting = false;
   final complaintController = TextEditingController();
   String complaint = "";
   String type = "";
@@ -27,12 +28,11 @@ class _ComplaintState extends State<Complaint> {
   @override
   void initState() {
     super.initState();
-    getComplaintCount();
   }
 
   final curUser = FirebaseAuth.instance.currentUser;
 
-  void getComplaintCount() async {
+  Future<void> getComplaintCount() async {
     var complaintCountDocument = await FirebaseFirestore.instance
         .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
         .get();
@@ -45,10 +45,12 @@ class _ComplaintState extends State<Complaint> {
     complaintCount['Other'] = complaintCountDocument['Other'];
   }
 
-  void _submitToDB() async {
-    await FirebaseFirestore.instance.collection('complaints').add(
+  Future<void> _submitToDB() async {
+    final response =
+        await FirebaseFirestore.instance.collection('complaints').add(
       {'complaint': complaint, 'type': type, 'uid': curUser!.uid},
     );
+    print(response);
     await FirebaseFirestore.instance
         .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
         .update({
@@ -142,15 +144,21 @@ class _ComplaintState extends State<Complaint> {
                         borderRadius: BorderRadius.circular(5.r),
                       ),
                     ),
-                    onPressed: () async {
+                    onPressed: isSubmitting?null: () async {
+                      setState(() {
+                        isSubmitting = true;
+                      });
                       complaint = complaintController.text;
                       type = complaintType;
-                      getComplaintCount();
+                      await getComplaintCount();
                       complaintCount[type] += 1;
-                      _submitToDB();
+                      await _submitToDB();
                       complaintController.clear();
+                      setState(() {
+                        isSubmitting = false;
+                      });
                     },
-                    child: Text(
+                    child: isSubmitting?CircularProgressIndicator(): Text(
                       'Submit',
                       style: TextStyle(color: Color(0xFFFFFFFF)),
                     ),

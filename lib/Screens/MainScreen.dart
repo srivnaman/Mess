@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mess/Screens/ScreenWidgets/Complaints/complaint.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/complaintM.dart';
 import 'package:mess/widgets/GBottomNavBar.dart';
 
-import 'ScreenWidgets/Complaints/complaint.dart';
 import 'ScreenWidgets/Home/home.dart';
 import 'ScreenWidgets/Menu/menu.dart';
 import 'ScreenWidgets/Profile/profile.dart';
@@ -38,12 +38,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    MenuPage(),
-    Complaint(), //ComplaintM(),
-    Profile(),
-  ];
 
   static const TextStyle TitleStyle = TextStyle(color: Colors.white);
 
