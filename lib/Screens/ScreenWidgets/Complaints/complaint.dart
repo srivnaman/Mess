@@ -15,40 +15,23 @@ class Complaint extends StatefulWidget {
 
 class _ComplaintState extends State<Complaint> {
   final complaintController = TextEditingController();
-  bool _isProcessing = false;
-
-  List<Map<String, String>> myComplaints = [];
-
-  void getUserData() async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    final currentUserData =
-        await FirebaseFirestore.instance.doc('users/' + uid!).get();
-
-    myComplaints = currentUserData['complaints'];
-
-    setState(() {});
-  }
+  String complaint = "";
+  String type = "";
 
   @override
   void initState() {
     super.initState();
-    getUserData();
   }
 
   final curUser = FirebaseAuth.instance.currentUser;
 
   void _submitToDB() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(curUser!.uid)
-        .update(
-      {
-        'complaints': myComplaints,
-      },
+    await FirebaseFirestore.instance.collection('complaints').add(
+      {'complaint': complaint, 'type': type, 'uid': curUser!.uid},
     );
   }
 
-  final List<String> complaint = [
+  final List<String> complaintTypeList = [
     'Food quality issue',
     'Food serving issue',
     'Cleanliness issue',
@@ -87,7 +70,7 @@ class _ComplaintState extends State<Complaint> {
                     height: 10.h,
                   ),
                   DropDown(
-                    items: complaint,
+                    items: complaintTypeList,
                     handleDropDown: handleComplaint,
                     text: "Select Complaint",
                   ),
@@ -112,6 +95,7 @@ class _ComplaintState extends State<Complaint> {
                         color: Colors.white),
                     //color: Colors.white,
                     child: TextField(
+                      style: TextStyle(fontFamily: ''),
                       controller: complaintController,
                       maxLines: 8,
                       decoration: InputDecoration(
@@ -119,12 +103,6 @@ class _ComplaintState extends State<Complaint> {
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         hintText: 'Enter a full query',
-
-                        /*decoration: InputDecoration(
-                        
-                        border: OutlineInputBorder(borderRadius: BorderRadius(20)),
-                        hintText: 'Enter a full query',
-                      ),*/
                       ),
                     ),
                   ),
@@ -139,20 +117,11 @@ class _ComplaintState extends State<Complaint> {
                       ),
                     ),
                     onPressed: () async {
-                      setState(() {
-                        _isProcessing = true;
-                      });
-                      myComplaints.add({
-                        'Id': curUser!.uid + myComplaints.length.toString(),
-                        'Complaint': complaintController.text,
-                        'Type': complaintType
-                      });
+                      complaint = complaintController.text;
+                      type = complaintType;
+
                       _submitToDB();
                       complaintController.clear();
-
-                      setState(() {
-                        _isProcessing = false;
-                      });
                     },
                     child: Text(
                       'Submit',
@@ -168,20 +137,3 @@ class _ComplaintState extends State<Complaint> {
     );
   }
 }
-
-
-/*
-Container(
-      child: Column(
-        children: [
-          Divider(color: Color.fromARGB(255, 255, 255, 255)),
-          Container(
-            width: 250.w,
-            child: Column(
-              children: [],
-            ),
-          )
-        ],
-      ),
-    );
-*/
