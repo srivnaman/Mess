@@ -17,18 +17,46 @@ class _ComplaintState extends State<Complaint> {
   final complaintController = TextEditingController();
   String complaint = "";
   String type = "";
+  Map complaintCount = {
+    'Cleanliness issue': 0,
+    'Food quality issue': 0,
+    'Food serving issue': 0,
+    'Other': 0
+  };
 
   @override
   void initState() {
     super.initState();
+    getComplaintCount();
   }
 
   final curUser = FirebaseAuth.instance.currentUser;
+
+  void getComplaintCount() async {
+    final complaintCountDocument = await FirebaseFirestore.instance
+        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
+        .get();
+    complaintCount['Cleanliness issue'] =
+        complaintCountDocument['Cleanliness issue'];
+    complaintCount['Food quality issue'] =
+        complaintCountDocument['Food quality issue'];
+    complaintCount['Food serving issue'] =
+        complaintCountDocument['Food serving issue'];
+    complaintCount['Other'] = complaintCountDocument['Other'];
+  }
 
   void _submitToDB() async {
     await FirebaseFirestore.instance.collection('complaints').add(
       {'complaint': complaint, 'type': type, 'uid': curUser!.uid},
     );
+    await FirebaseFirestore.instance
+        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
+        .update({
+      'Cleanliness issue': complaintCount['Cleanliness issue'],
+      'Food quality issue': complaintCount['Food quality issue'],
+      'Food serving issue': complaintCount['Food serving issue'],
+      'Other': complaintCount['Other']
+    });
   }
 
   final List<String> complaintTypeList = [
@@ -119,7 +147,7 @@ class _ComplaintState extends State<Complaint> {
                     onPressed: () async {
                       complaint = complaintController.text;
                       type = complaintType;
-
+                      complaintCount[type] += 1;
                       _submitToDB();
                       complaintController.clear();
                     },

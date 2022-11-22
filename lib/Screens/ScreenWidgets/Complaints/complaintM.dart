@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mess/UnusedFiles/complaint_model.dart';
-import 'package:mess/UnusedFiles/complaintBox.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/Widgets/complaintChart.dart';
-import '../../../UnusedFiles/User.dart';
 
 class ComplaintM extends StatefulWidget {
   static const routeName = '/complaintM';
@@ -20,10 +17,27 @@ class _ComplaintState extends State<ComplaintM> {
   int numOthers = 0;
 
   @override
+  void initState() {
+    super.initState();
+    getComplaintCount();
+  }
+
+  void getComplaintCount() async {
+    final complaintCountDocument = await FirebaseFirestore.instance
+        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
+        .get();
+    numFoodQuality = complaintCountDocument['Cleanliness issue'];
+    numMessCleanliness= complaintCountDocument['Food quality issue'];
+    numFoodServing = complaintCountDocument['Food serving issue'];
+    numOthers = complaintCountDocument['Other'];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('complaints').snapshots(),
         builder: (context, snapshot) {
+          getComplaintCount();
           return Padding(
             padding: EdgeInsets.only(left: 30.w, right: 30.w),
             child: Container(
@@ -58,15 +72,7 @@ class _ComplaintState extends State<ComplaintM> {
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
                               DocumentSnapshot doc = snapshot.data!.docs[index];
-                              if (doc['type'] == 'Food quality issue') {
-                                numFoodQuality += 1;
-                              } else if (doc['type'] == 'Food serving issue') {
-                                numFoodServing += 1;
-                              } else if (doc['type'] == 'Cleanliness issue') {
-                                numMessCleanliness += 1;
-                              } else {
-                                numOthers += 1;
-                              }
+
                               return Card(
                                 elevation: 7,
                                 child: ListTile(
