@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                             () {});
                                                                       }
 
-                                                                      if (user!
+                                                                      if (user
                                                                           .emailVerified) {
                                                                         Navigator.of(context)
                                                                             .pushReplacement(

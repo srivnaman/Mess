@@ -44,7 +44,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
             onPressed: () async {
               await user.reload();
               user = await FirebaseAuth.instance.currentUser!;
-              if (user!.emailVerified) {
+              if (user.emailVerified) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => MainScreen()),
                 );

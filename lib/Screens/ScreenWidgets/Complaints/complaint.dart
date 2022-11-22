@@ -33,7 +33,7 @@ class _ComplaintState extends State<Complaint> {
   final curUser = FirebaseAuth.instance.currentUser;
 
   void getComplaintCount() async {
-    final complaintCountDocument = await FirebaseFirestore.instance
+    var complaintCountDocument = await FirebaseFirestore.instance
         .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
         .get();
     complaintCount['Cleanliness issue'] =
@@ -117,11 +117,9 @@ class _ComplaintState extends State<Complaint> {
                     height: 20.h,
                   ),
                   Container(
-                    //height: 100,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.r),
                         color: Colors.white),
-                    //color: Colors.white,
                     child: TextField(
                       style: TextStyle(fontFamily: ''),
                       controller: complaintController,
@@ -147,6 +145,7 @@ class _ComplaintState extends State<Complaint> {
                     onPressed: () async {
                       complaint = complaintController.text;
                       type = complaintType;
+                      getComplaintCount();
                       complaintCount[type] += 1;
                       _submitToDB();
                       complaintController.clear();
