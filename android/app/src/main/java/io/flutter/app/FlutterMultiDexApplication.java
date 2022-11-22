@@ -23,3 +23,4 @@ public class FlutterMultiDexApplication extends Application {
     MultiDex.install(this);
   }
 }
+
