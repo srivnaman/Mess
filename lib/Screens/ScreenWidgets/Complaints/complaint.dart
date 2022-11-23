@@ -18,12 +18,6 @@ class _ComplaintState extends State<Complaint> {
   final complaintController = TextEditingController();
   String complaint = "";
   String type = "";
-  Map complaintCount = {
-    'Cleanliness issue': 0,
-    'Food quality issue': 0,
-    'Food serving issue': 0,
-    'Other': 0
-  };
 
   @override
   void initState() {
@@ -32,32 +26,18 @@ class _ComplaintState extends State<Complaint> {
 
   final curUser = FirebaseAuth.instance.currentUser;
 
-  Future<void> getComplaintCount() async {
-    var complaintCountDocument = await FirebaseFirestore.instance
-        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
-        .get();
-    complaintCount['Cleanliness issue'] =
-        complaintCountDocument['Cleanliness issue'];
-    complaintCount['Food quality issue'] =
-        complaintCountDocument['Food quality issue'];
-    complaintCount['Food serving issue'] =
-        complaintCountDocument['Food serving issue'];
-    complaintCount['Other'] = complaintCountDocument['Other'];
-  }
-
-  Future<void> _submitToDB() async {
-    final response =
-        await FirebaseFirestore.instance.collection('complaints').add(
-      {'complaint': complaint, 'type': type, 'uid': curUser!.uid},
-    );
-    print(response);
-    await FirebaseFirestore.instance
-        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
-        .update({
-      'Cleanliness issue': complaintCount['Cleanliness issue'],
-      'Food quality issue': complaintCount['Food quality issue'],
-      'Food serving issue': complaintCount['Food serving issue'],
-      'Other': complaintCount['Other']
+  Future<void> _submitToDB(String type) async {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      await FirebaseFirestore.instance.collection('complaints').add(
+        {'complaint': complaint, 'type': type, 'uid': curUser!.uid},
+      );
+      var complaintCountDocumentRef = await FirebaseFirestore.instance
+          .collection('complaintsCount')
+          .doc('7av1p8pWqBb7iPWZk0Hd');
+      var complaintCountDocument =
+          await transaction.get(complaintCountDocumentRef);
+      await transaction.update(
+          complaintCountDocumentRef, {type: complaintCountDocument[type] + 1});
     });
   }
 
@@ -144,24 +124,26 @@ class _ComplaintState extends State<Complaint> {
                         borderRadius: BorderRadius.circular(5.r),
                       ),
                     ),
-                    onPressed: isSubmitting?null: () async {
-                      setState(() {
-                        isSubmitting = true;
-                      });
-                      complaint = complaintController.text;
-                      type = complaintType;
-                      await getComplaintCount();
-                      complaintCount[type] += 1;
-                      await _submitToDB();
-                      complaintController.clear();
-                      setState(() {
-                        isSubmitting = false;
-                      });
-                    },
-                    child: isSubmitting?CircularProgressIndicator(): Text(
-                      'Submit',
-                      style: TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
+                    onPressed: isSubmitting
+                        ? null
+                        : () async {
+                            setState(() {
+                              isSubmitting = true;
+                            });
+                            complaint = complaintController.text;
+                            type = complaintType;
+                            await _submitToDB(type);
+                            complaintController.clear();
+                            setState(() {
+                              isSubmitting = false;
+                            });
+                          },
+                    child: isSubmitting
+                        ? CircularProgressIndicator()
+                        : Text(
+                            'Submit',
+                            style: TextStyle(color: Color(0xFFFFFFFF)),
+                          ),
                   ),
                 ],
               ),
