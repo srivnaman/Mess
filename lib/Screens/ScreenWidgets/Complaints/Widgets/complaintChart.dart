@@ -14,32 +14,6 @@ class _ComplaintChartState extends State<ComplaintChart> {
   int numOthers = 0;
   bool isLoading = false;
 
-  void waitForData(BuildContext context) async {
-    setState(() {
-      isLoading = true;
-    });
-    await getComplaintCount();
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => waitForData(context));
-  }
-
-  Future<void> getComplaintCount() async {
-    final complaintCountDocument = await FirebaseFirestore.instance
-        .doc('complaintsCount/7av1p8pWqBb7iPWZk0Hd')
-        .get();
-    numFoodQuality = complaintCountDocument['Food quality issue'];
-    numMessCleanliness = complaintCountDocument['Cleanliness issue'];
-    numFoodServing = complaintCountDocument['Food serving issue'];
-    numOthers = complaintCountDocument['Other'];
-  }
-
   @override
   Widget build(BuildContext context) {
     TextStyle myStyle = TextStyle(color: Colors.white);
