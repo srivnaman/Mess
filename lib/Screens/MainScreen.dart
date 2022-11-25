@@ -91,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(30.h),
           child: AppBar(
-            backgroundColor: Color.fromARGB(0, 154, 37, 37),
+            backgroundColor: Colors.transparent,
             title: Column(
               children: [
                 SizedBox(height: 15.h),

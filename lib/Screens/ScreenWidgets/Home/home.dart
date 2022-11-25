@@ -53,7 +53,8 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        constraints: BoxConstraints(maxWidth: 50.h, maxHeight: 70.h),
+                        constraints:
+                            BoxConstraints(maxWidth: 50.h, maxHeight: 70.h),
                         //height: 30.h,
                         //width: 60.w,
                         decoration: BoxDecoration(
@@ -62,25 +63,28 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Container(
-                        constraints: BoxConstraints(maxWidth: 50.h, maxHeight: 70.h),
+                        constraints:
+                            BoxConstraints(maxWidth: 50.h, maxHeight: 70.h),
                         decoration: BoxDecoration(
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                       ),
                       Container(
-                        constraints: BoxConstraints(maxWidth: 50.h,maxHeight: 70.h),
-                          //  height: 30.h,
-                          //  width: 60.w,
-                          decoration: BoxDecoration(
+                        constraints:
+                            BoxConstraints(maxWidth: 50.h, maxHeight: 70.h),
+                        //  height: 30.h,
+                        //  width: 60.w,
+                        decoration: BoxDecoration(
                           color: Colors.blueGrey,
-                        borderRadius: BorderRadius.circular(20.r),
-                       ),
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
                       ),
                     ],
                   ),
-                 
-                  SizedBox(height: 10.h,),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                 ],
               ),
             ),
@@ -92,8 +96,6 @@ class _HomeState extends State<Home> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Container(
-            //height: 10.h,
-            //width: thisWidth,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
               color: Colors.white,

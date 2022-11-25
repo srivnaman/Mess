@@ -37,19 +37,20 @@ class Profile extends StatelessWidget {
                   ),
 
                   Center(
-                  child:
-                    CircleAvatar(
-                           backgroundImage: AssetImage('Assets/Images/userAvatar2.png'),
-                           radius: 60.r,
-                           //child: Text('Eevee'),
-                           //foregroundColor: Colors.red,
-                         ),
+                    child: CircleAvatar(
+                      radius: 63.r,
+                      backgroundColor: Color(0xFF000A12),
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('Assets/Images/user.png'),
+                        radius: 60.r,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
                   //ProfilePhotoContainer(),
-                  
+
                   SizedBox(
                     height: 10.h,
                   ),
@@ -67,24 +68,32 @@ class Profile extends StatelessWidget {
 }
 
 class SignoutOption extends StatelessWidget {
-  const SignoutOption({ Key? key }) : super(key: key);
+  const SignoutOption({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton(
-          onPressed: () async{
+          onPressed: () async {
             await FirebaseAuth.instance.signOut();
-          Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) =>LoginPage(),),
-          );
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => LoginPage(),
+              ),
+            );
           },
-          child: Container(child: Text("Log Out"))),
+          child: Container(
+            child: Text(
+              "Log Out",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
       ],
     );
-    
+
     /*TextButton (
       onPressed: () async{
       await FirebaseAuth.instance.signOut();
@@ -92,10 +101,9 @@ class SignoutOption extends StatelessWidget {
         MaterialPageRoute(builder: (context) => LoginPage(),),
       ),
       }, */
-      //Widget: Widget)
+    //Widget: Widget)
   }
 }
-
 
 class ProfilePhotoContainer extends Profile {
   Widget build(BuildContext context) {
@@ -139,17 +147,16 @@ class ProfilePhotoContainer extends Profile {
                 top: 0,
                 left: 0,
                 right: 0,
-                child:Center(
-                  child:
-                    CircleAvatar(
-                           backgroundImage: NetworkImage('https://nextluxury.com/wp-content/uploads/funny-profile-pictures-10.jpg'),
-                           radius: 100.r,
-                           //child: Text('Eevee'),
-                           //foregroundColor: Colors.red,
-                         ),
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        'https://nextluxury.com/wp-content/uploads/funny-profile-pictures-10.jpg'),
+                    radius: 100.r,
+                    //child: Text('Eevee'),
+                    //foregroundColor: Colors.red,
+                  ),
                 ),
-                
-                
+
                 // child: Center(
                 //   child: Container(
                 //     height: 80.h,
