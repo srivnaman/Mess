@@ -18,6 +18,8 @@ This application automates and digitalizes various activities like:
 7. User settings showcase the details of the user as registered with the institute and thus cannot be changed✅
 
 # Snapshots
+# How To Use the Project
+You need to configure firebase once you start this project. This can be done as follows:
 
 # Pull Requests
 We welcome and encourage all pull requests. It usually will take us within 24-48 hours to respond to any issue or request. Here are some basic rules to follow to ensure timely addition of your request:
