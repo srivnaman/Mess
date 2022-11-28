@@ -97,13 +97,22 @@ class _MenuPageState extends State<MenuPage> {
                           builder: (context) {
                             return Container(
                               child: AlertDialog(
+                                icon: Icon(
+                                  Icons.restaurant_menu,
+                                ),
+                                elevation: 10,
+//                                 titlePadding: 40,
+//                                 contentPadding: 20,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(32.0))),
                                 title: Text("We are making.."),
                                 content: Text(
                                   "Veg Noodle, Tea/Coffee, Milk",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 1, 56, 112),
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.bold,
+//                                       fontSize: 1,
+
                                       fontFamily: 'Nunito'),
                                   textAlign: TextAlign.center,
                                 ),
