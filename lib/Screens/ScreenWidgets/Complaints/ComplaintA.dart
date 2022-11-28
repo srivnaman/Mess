@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/Widgets/complaintChart.dart';
 
-class ComplaintM extends StatefulWidget {
-  static const routeName = '/complaintM';
+class ComplaintA extends StatefulWidget {
+  static const routeName = '/complaintA';
 
   @override
-  State<ComplaintM> createState() => _ComplaintState();
+  State<ComplaintA> createState() => _ComplaintState();
 }
 
-class _ComplaintState extends State<ComplaintM> {
+class _ComplaintState extends State<ComplaintA> {
   bool isLoading = false;
 
   @override

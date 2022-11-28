@@ -14,13 +14,13 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   String? categoryValue;
-  final List<String> menu = [
+  final List<String> mealList = [
     'Breakfast',
     'Lunch',
     'Evening Snacks',
     'Dinner',
   ];
-  final List<String> items = [
+  final List<String> dayList = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -53,6 +53,21 @@ class _MenuPageState extends State<MenuPage> {
                   height: 30.h,
                 ),
                 Text(
+                  "Select a Meal",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                DropDown(
+                  items: mealList,
+                  handleDropDown: handleMeal,
+                  text: "Select a Meal",
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Text(
                   "Select Day",
                   style: TextStyle(color: Colors.white),
                 ),
@@ -60,25 +75,61 @@ class _MenuPageState extends State<MenuPage> {
                   height: 10.h,
                 ),
                 DropDown(
-                  items: menu,
+                  items: dayList,
                   handleDropDown: handleDay,
                   text: "Select Day",
                 ),
                 SizedBox(
-                  height: 20.h,
-                ),
-                Text(
-                  "Select Meal",
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(
                   height: 10.h,
                 ),
-                DropDown(
-                  items: items,
-                  handleDropDown: handleMeal,
-                  text: "Select Meal",
-                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF3F5C94),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.r),
+                    ),
+                  ),
+                  child: Text("See Menu"),
+                  onPressed: () {
+                    if (selectedDay != null && selectedMeal != null) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              child: AlertDialog(
+                                icon: Icon(
+                                  Icons.restaurant_menu,
+                                ),
+                                elevation: 10,
+//                                 titlePadding: 40,
+//                                 contentPadding: 20,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(32.0))),
+                                title: Text("We are making.."),
+                                content: Text(
+                                  "Veg Noodle, Tea/Coffee, Milk",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 1, 56, 112),
+//                                       fontSize: 1,
+
+                                      fontFamily: 'Nunito'),
+                                  textAlign: TextAlign.center,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Close"),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                    }
+                  },
+                )
               ],
             ),
           )
