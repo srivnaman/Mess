@@ -1,18 +1,16 @@
-// ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/widgets/DropDown.dart';
 
-class MenuPage extends StatefulWidget {
+class MenuMPage extends StatefulWidget {
   static const routeName = '/menu';
-  MenuPage({Key? key}) : super(key: key);
+  MenuMPage({Key? key}) : super(key: key);
   int index = 0;
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  State<MenuMPage> createState() => _MenuMPageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _MenuMPageState extends State<MenuMPage> {
   String? categoryValue;
   final List<String> mealList = [
     'Breakfast',
@@ -27,10 +25,13 @@ class _MenuPageState extends State<MenuPage> {
     'Wednesday',
     'Thursday',
     'Friday',
-    'Saturday'
+    'Saturday',
+    'Everyday'
   ];
   String? selectedDay;
   String? selectedMeal;
+  final _foodTextController = TextEditingController();
+
   void handleDay(value) {
     selectedDay = value;
   }
@@ -38,6 +39,11 @@ class _MenuPageState extends State<MenuPage> {
   void handleMeal(value) {
     selectedMeal = value;
   }
+
+  // void _submitToDB() async {
+  //   final food = _foodTextController.text;
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +95,7 @@ class _MenuPageState extends State<MenuPage> {
                       borderRadius: BorderRadius.circular(5.r),
                     ),
                   ),
-                  child: Text("See Menu"),
+                  child: Text("Change Menu"),
                   onPressed: () {
                     if (selectedDay != null && selectedMeal != null) {
                       showDialog(
@@ -106,15 +112,17 @@ class _MenuPageState extends State<MenuPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(32.0))),
-                                title: Text("We are making.."),
-                                content: Text(
-                                  "Veg Noodle, Tea/Coffee, Milk",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 1, 56, 112),
-//                                       fontSize: 1,
-
-                                      fontFamily: 'Nunito'),
-                                  textAlign: TextAlign.center,
+                                title: Text("Change Required Menu To:"),
+                                content: Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 30.0, right: 30.0),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Add New Menu",
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: 8,
+                                  ),
                                 ),
                                 actions: [
                                   TextButton(
@@ -132,6 +140,21 @@ class _MenuPageState extends State<MenuPage> {
                                       "Close",
                                       style:
                                           TextStyle(color: Color(0xFFFFFFFF)),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Save",
+                                      style:
+                                          TextStyle(color: Color(0xFFFFFFFF)),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Color(0xFF3F5C94),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.r),
+                                      ),
                                     ),
                                   )
                                 ],
