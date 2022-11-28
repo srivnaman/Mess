@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/complaint.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/complaintM.dart';
+import 'package:mess/Screens/ScreenWidgets/Complaints/complaintA.dart';
 import 'package:mess/widgets/GBottomNavBar.dart';
 
 import 'ScreenWidgets/Home/home.dart';
@@ -71,7 +72,11 @@ class _MainScreenState extends State<MainScreen> {
     List<Widget> _widgetOptions = <Widget>[
       Home(),
       MenuPage(),
-      role == 'Mess Manager' ? ComplaintM() : Complaint(),
+      role == 'Mess Manager'
+          ? ComplaintM()
+          : role == 'Admin'
+              ? ComplaintA()
+              : Complaint(),
       Profile(),
     ];
 

@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
     role = value;
   }
 
-  List<String> roleList = ["Mess Manager", "Faculty", "Student"];
+  List<String> roleList = ["Faculty", "Student", "Mess Manager", "Admin"];
 
   void _submitToDB() async {
     final curUser = FirebaseAuth.instance.currentUser;
