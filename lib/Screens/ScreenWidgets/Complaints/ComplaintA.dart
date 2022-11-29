@@ -58,23 +58,22 @@ class _ComplaintState extends State<ComplaintA> {
                                   return Card(
                                     elevation: 7,
                                     child: ListTile(
-                                        leading: Icon(Icons.food_bank_rounded,
-                                            color: doc['status']
-                                                ? Colors.green[600]
-                                                : Colors.red[600]),
-                                        title: Text(
-                                          doc['complaint'],
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        trailing: ListTile(
-                                          leading: Icon(Icons.verified,
-                                              color: Colors.green[600]),
-                                          trailing: IconButton(
-                                            icon: Icon(Icons.delete,
-                                                color: Colors.red[600]),
-                                            onPressed: () {},
-                                          ),
-                                        )),
+                                      leading: Icon(
+                                        Icons.food_bank_rounded,
+                                        color: doc['status']
+                                            ? Colors.green[600]
+                                            : Colors.red[600],
+                                      ),
+                                      title: Text(
+                                        doc['complaint'],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.delete,
+                                            color: Colors.red[600]),
+                                        onPressed: () {},
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
@@ -85,16 +84,21 @@ class _ComplaintState extends State<ComplaintA> {
                                 Text(
                                   'Awesome!!! \n There are no complaints.',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
                                   textAlign: TextAlign.center,
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
                               ],
-                            )
+                            ),
                     ],
                   ),
                 ),
               );
-            });
+            },
+          );
   }
 }

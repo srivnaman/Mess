@@ -77,11 +77,12 @@ class _MainScreenState extends State<MainScreen> {
     List<Widget> _widgetOptions = <Widget>[
       Home(),
       role == 'Mess Manager' ? MenuMPage() : MenuPage(),
-      role == 'Mess Manager'
-          ? ComplaintM()
-          : role == 'Admin'
-              ? ComplaintA()
-              : Complaint(),
+      ComplaintM(),
+      // role == 'Mess Manager'
+      // ? ComplaintM()
+      // : role == 'Admin'
+      //     ? ComplaintA()
+      //     : Complaint(),
       Profile(),
     ];
 
