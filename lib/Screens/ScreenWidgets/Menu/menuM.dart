@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/widgets/DropDown.dart';
@@ -32,6 +33,8 @@ class _MenuMPageState extends State<MenuMPage> {
   String? selectedMeal;
   final _foodTextController = TextEditingController();
 
+
+
   void handleDay(value) {
     selectedDay = value;
   }
@@ -40,10 +43,20 @@ class _MenuMPageState extends State<MenuMPage> {
     selectedMeal = value;
   }
 
-  // void _submitToDB() async {
-  //   final food = _foodTextController.text;
-
-  // }
+ void _updateDB(String meal,String day) async
+ {
+   await FirebaseFirestore.instance.runTransaction((transaction) async {
+   await FirebaseFirestore.instance.collection('menu')
+       .where('meal', isEqualTo: meal).where('day',isEqualTo:day)
+       .get()
+       .then((res) {
+     res.docs.forEach((documentSnapshot) async {
+       print(documentSnapshot.reference);
+       // await documentSnapshot.reference.update({'food':_foodTextController.text});
+     });
+   });
+ });
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +130,7 @@ class _MenuMPageState extends State<MenuMPage> {
                                   padding:
                                       EdgeInsets.only(left: 30.0, right: 30.0),
                                   child: TextField(
+                                    controller: _foodTextController,
                                     decoration: InputDecoration(
                                       hintText: "Add New Menu",
                                       border: InputBorder.none,
@@ -143,7 +157,7 @@ class _MenuMPageState extends State<MenuMPage> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: (){_updateDB(selectedMeal!, selectedDay!);},
                                     child: Text(
                                       "Save",
                                       style:

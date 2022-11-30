@@ -29,7 +29,13 @@ class _ComplaintState extends State<Complaint> {
   Future<void> _submitToDB(String type) async {
     await FirebaseFirestore.instance.runTransaction((transaction) async {
       await FirebaseFirestore.instance.collection('complaints').add(
-        {'complaint': complaint, 'type': type, 'uid': curUser!.uid},
+        {
+          'complaint': complaint,
+          'type': type,
+          'uid': curUser!.uid,
+          'status': false,
+          'verified': false
+        },
       );
       var complaintCountDocumentRef = await FirebaseFirestore.instance
           .collection('complaintsCount')
