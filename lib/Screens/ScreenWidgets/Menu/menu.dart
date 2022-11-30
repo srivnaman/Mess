@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/widgets/DropDown.dart';
@@ -37,6 +37,25 @@ class _MenuPageState extends State<MenuPage> {
 
   void handleMeal(value) {
     selectedMeal = value;
+  }
+
+  Future getMenu(String? day, String? meal) async {
+    String menuRequired =
+        "Sorry! We are experiencing some Technical Difficulties...PLEASE mail us AT 20bds064@iiitdwd.ac.in";
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      await FirebaseFirestore.instance
+          .collection('menu')
+          .where('meal', isEqualTo: meal)
+          .where('day', isEqualTo: day)
+          .get()
+          .then((res) {
+        res.docs.forEach((documentSnapshot) async {
+          // print(documentSnapshot.reference);
+          menuRequired = documentSnapshot.data()['food'].toString();
+        });
+      });
+    });
+    return menuRequired;
   }
 
   @override
@@ -91,6 +110,7 @@ class _MenuPageState extends State<MenuPage> {
                   ),
                   child: Text("See Menu"),
                   onPressed: () {
+                    Future menuRequired = getMenu(selectedDay, selectedMeal);
                     if (selectedDay != null && selectedMeal != null) {
                       showDialog(
                           context: context,
@@ -108,7 +128,7 @@ class _MenuPageState extends State<MenuPage> {
                                         Radius.circular(32.0))),
                                 title: Text("We are making.."),
                                 content: Text(
-                                  "Veg Noodle, Tea/Coffee, Milk",
+                                  menuRequired.toString(),
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 1, 56, 112),
 //                                       fontSize: 1,
