@@ -51,8 +51,8 @@ class _MenuMPageState extends State<MenuMPage> {
        .get()
        .then((res) {
      res.docs.forEach((documentSnapshot) async {
-       print(documentSnapshot.reference);
-       // await documentSnapshot.reference.update({'food':_foodTextController.text});
+      //  print(documentSnapshot.reference);
+       await documentSnapshot.reference.update({'food':_foodTextController.text});
      });
    });
  });

@@ -109,8 +109,8 @@ class _MenuPageState extends State<MenuPage> {
                     ),
                   ),
                   child: Text("See Menu"),
-                  onPressed: () {
-                    Future menuRequired = getMenu(selectedDay, selectedMeal);
+                  onPressed: () async {
+                    var menuRequired = await getMenu(selectedDay, selectedMeal);
                     if (selectedDay != null && selectedMeal != null) {
                       showDialog(
                           context: context,
