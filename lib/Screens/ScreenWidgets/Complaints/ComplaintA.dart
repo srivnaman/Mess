@@ -12,6 +12,61 @@ class ComplaintA extends StatefulWidget {
 
 class _ComplaintState extends State<ComplaintA> {
   bool isLoading = false;
+  Widget showList(snapshot) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: snapshot.data!.docs.length,
+      itemBuilder: (context, index) {
+        DocumentSnapshot doc = snapshot.data!.docs[index];
+
+        return Card(
+          elevation: 7,
+          child: ListTile(
+            leading: Icon(Icons.food_bank_rounded,
+                color: doc['status'] ? Colors.green[600] : Colors.red[600]),
+            title: Text(
+              doc['complaint'],
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.verified,
+                color: doc['verified'] == true ? Colors.green : Colors.blueGrey,
+              ),
+              onPressed: () {
+                String id = doc.id;
+                FirebaseFirestore.instance
+                    .collection("complaints")
+                    .doc(id)
+                    .update({'verified': !doc['verified']});
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget rowItem(context, index, snapshot) {
+    return Dismissible(
+        key: Key(snapshot[index]),
+        onDismissed: (direction) {},
+        background: deleteBgItem(),
+        child: Card(
+          child: ListTile(
+            title: Text(snapshot[index]),
+          ),
+        ));
+  }
+
+  Widget deleteBgItem() {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(right: 20),
+      color: Colors.red[600],
+      child: Icon(Icons.delete),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,46 +102,16 @@ class _ComplaintState extends State<ComplaintA> {
                         height: 10.h,
                       ),
                       snapshot.hasData
-                          ? Expanded(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot doc =
-                                      snapshot.data!.docs[index];
-
-                                  return Card(
-                                    elevation: 7,
-                                    child: ListTile(
-                                      leading: Icon(
-                                        Icons.food_bank_rounded,
-                                        color: doc['status']
-                                            ? Colors.green[600]
-                                            : Colors.red[600],
-                                      ),
-                                      title: Text(
-                                        doc['complaint'],
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      trailing: IconButton(
-                                        icon: Icon(Icons.delete,
-                                            color: Colors.red[600]),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
+                          ? Expanded(child: showList(snapshot))
                           : Column(
                               children: [
-                                SizedBox(height: 30.h),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
                                 Text(
                                   'Awesome!!! \n There are no complaints.',
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
+                                      color: Colors.white, fontSize: 18),
                                   textAlign: TextAlign.center,
                                 ),
                                 SizedBox(
