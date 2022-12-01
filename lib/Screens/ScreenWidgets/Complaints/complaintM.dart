@@ -19,43 +19,40 @@ class _ComplaintState extends State<ComplaintM> {
       itemBuilder: (context, index) {
         DocumentSnapshot doc = snapshot.data!.docs[index];
 
-        return Card(
-          elevation: 7,
-          child: ListTile(
-            leading: Icon(Icons.food_bank_rounded,
-                color: doc['status'] ? Colors.green[600] : Colors.red[600]),
-            title: Text(
-              doc['complaint'],
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.verified,
-                color: doc['verified'] == true ? Colors.green : Colors.blueGrey,
+        return Dismissible(
+            key: Key(snapshot[index]),
+            onDismissed: (direction) {
+              if (direction == DismissDirection.endToStart &&
+                  snapshot.data!.docs[index]['verified'] == true) {
+                FirebaseFirestore.instance
+                    .collection("complaints")
+                    .doc(snapshot.data!.docs[index]['id'])
+                    .delete();
+              }
+            },
+            background: deleteBgItem(),
+            child: Card(
+              elevation: 7,
+              child: ListTile(
+                leading: Icon(Icons.food_bank_rounded,
+                    color: doc['status'] ? Colors.green[600] : Colors.red[600]),
+                title: Text(
+                  doc['complaint'],
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.verified,
+                    color: doc['verified'] == true
+                        ? Colors.green
+                        : Colors.blueGrey,
+                  ),
+                  onPressed: () {},
+                ),
               ),
-              onPressed: () {},
-            ),
-          ),
-        );
+            ));
       },
     );
-  }
-
-  Widget rowItem(context, index, snapshot) {
-    return Dismissible(
-        key: Key(snapshot[index]),
-        onDismissed: (direction) {
-          FirebaseFirestore.instance
-              .collection("complaints")
-              .doc(snapshot.data!.docs[index]['id'])
-              .delete();
-        },
-        background: deleteBgItem(),
-        child: Card(
-          child: ListTile(
-            title: Text(snapshot[index]),
-          ),
-        ));
   }
 
   Widget deleteBgItem() {

@@ -19,56 +19,99 @@ class _ComplaintState extends State<ComplaintA> {
       itemBuilder: (context, index) {
         DocumentSnapshot doc = snapshot.data!.docs[index];
 
-        return Card(
-          elevation: 7,
-          child: ListTile(
-            leading: Icon(Icons.food_bank_rounded,
-                color: doc['status'] ? Colors.green[600] : Colors.red[600]),
-            title: Text(
-              doc['complaint'],
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.verified,
-                color: doc['verified'] == true ? Colors.green : Colors.blueGrey,
+        return Dismissible(
+          key: Key(snapshot[index]),
+          onDismissed: (direction) {
+            if (direction == DismissDirection.endToStart) {
+              FirebaseFirestore.instance
+                  .collection("complaints")
+                  .doc(snapshot.data!.docs[index]['id'])
+                  .delete();
+            } else if (direction == DismissDirection.startToEnd) {
+              FirebaseFirestore.instance
+                  .collection("complaints")
+                  .doc(snapshot.data!.docs[index]['id'])
+                  .update({'verified': true});
+            }
+          },
+          background: deleteBgItem(),
+          child: Card(
+            elevation: 7,
+            child: ListTile(
+              leading: Icon(Icons.food_bank_rounded,
+                  color: doc['status'] ? Colors.green[600] : Colors.red[600]),
+              title: TextButton(
+                  child: Text(
+                    doc['complaint'],
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onPressed: () {
+                    String fullComplaint = doc['complaint'];
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          child: AlertDialog(
+                            icon: Icon(
+                              Icons.report_problem,
+                            ),
+                            elevation: 10,
+//                                 titlePadding: 40,
+//                                 contentPadding: 20,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(32.0))),
+                            title: Text("Complaint"),
+                            content: Text(
+                              fullComplaint,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 1, 56, 112),
+//                                       fontSize: 1,
+
+                                  fontFamily: 'Nunito'),
+                              textAlign: TextAlign.center,
+                            ),
+                            actions: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Color(0xFF3F5C94),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(color: Color(0xFFFFFFFF)),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.verified,
+                  color:
+                      doc['verified'] == true ? Colors.green : Colors.blueGrey,
+                ),
+                onPressed: () {
+                  String id = doc.id;
+                  FirebaseFirestore.instance
+                      .collection("complaints")
+                      .doc(id)
+                      .update({'verified': !doc['verified']});
+                },
               ),
-              onPressed: () {
-                String id = doc.id;
-                FirebaseFirestore.instance
-                    .collection("complaints")
-                    .doc(id)
-                    .update({'verified': !doc['verified']});
-              },
             ),
           ),
         );
       },
     );
-  }
-
-  Widget rowItem(context, index, snapshot) {
-    return Dismissible(
-        key: Key(snapshot[index]),
-        onDismissed: (direction) {
-          if (direction == DismissDirection.endToStart) {
-            FirebaseFirestore.instance
-                .collection("complaints")
-                .doc(snapshot.data!.docs[index]['id'])
-                .delete();
-          } else if (direction == DismissDirection.startToEnd) {
-            FirebaseFirestore.instance
-                .collection("complaints")
-                .doc(snapshot.data!.docs[index]['id'])
-                .update({'verified': true});
-          }
-        },
-        background: deleteBgItem(),
-        child: Card(
-          child: ListTile(
-            title: Text(snapshot[index]),
-          ),
-        ));
   }
 
   Widget deleteBgItem() {
