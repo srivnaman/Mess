@@ -44,7 +44,12 @@ class _ComplaintState extends State<ComplaintM> {
   Widget rowItem(context, index, snapshot) {
     return Dismissible(
         key: Key(snapshot[index]),
-        onDismissed: (direction) {},
+        onDismissed: (direction) {
+          FirebaseFirestore.instance
+              .collection("complaints")
+              .doc(snapshot.data!.docs[index]['id'])
+              .delete();
+        },
         background: deleteBgItem(),
         child: Card(
           child: ListTile(
