@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/Widgets/complaintChart.dart';
+import 'package:mess/Auth/widgets/errorMessage.dart';
 
 class ComplaintM extends StatefulWidget {
   static const routeName = '/complaintM';
@@ -19,98 +20,73 @@ class _ComplaintState extends State<ComplaintM> {
       itemBuilder: (context, index) {
         DocumentSnapshot doc = snapshot.data!.docs[index];
 
-        return Dismissible(
-            key: Key(doc.id),
-            onDismissed: (direction) {
-              if (direction == DismissDirection.endToStart &&
-                  doc['verified'] == true) {
-                FirebaseFirestore.instance
-                    .collection("complaints")
-                    .doc(doc.id)
-                    .delete();
-              }
-            },
-            background: deleteBgItem(),
-            child: Card(
-              elevation: 7,
-              child: ListTile(
-                leading: Icon(Icons.food_bank_rounded,
-                    color: doc['status'] ? Colors.green[600] : Colors.red[600]),
-                title: TextButton(
-                    child: Text(
-                      doc['complaint'],
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    onPressed: () {
-                      String fullComplaint = doc['complaint'];
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              child: AlertDialog(
-                                icon: Icon(
-                                  Icons.report_problem,
-                                ),
-                                elevation: 10,
+        return Card(
+          elevation: 7,
+          child: ListTile(
+            leading: Icon(Icons.food_bank_rounded,
+                color: doc['status'] ? Colors.green[600] : Colors.red[600]),
+            title: TextButton(
+                child: Text(
+                  doc['complaint'],
+                  overflow: TextOverflow.ellipsis,
+                ),
+                onPressed: () {
+                  String fullComplaint = doc['complaint'];
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          child: AlertDialog(
+                            icon: Icon(
+                              Icons.report_problem,
+                            ),
+                            elevation: 10,
 //                                 titlePadding: 40,
 //                                 contentPadding: 20,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(32.0))),
-                                title: Text("Complaint"),
-                                content: Text(
-                                  fullComplaint,
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 1, 56, 112),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(32.0))),
+                            title: Text("Complaint"),
+                            content: Text(
+                              fullComplaint,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 1, 56, 112),
 //                                       fontSize: 1,
 
-                                      fontFamily: 'Nunito'),
-                                  textAlign: TextAlign.center,
+                                  fontFamily: 'Nunito'),
+                              textAlign: TextAlign.center,
+                            ),
+                            actions: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Color(0xFF3F5C94),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                  ),
                                 ),
-                                actions: [
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Color(0xFF3F5C94),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.r),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      "Close",
-                                      style:
-                                          TextStyle(color: Color(0xFFFFFFFF)),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          });
-                    }),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.verified,
-                    color: doc['verified'] == true
-                        ? Colors.green
-                        : Colors.blueGrey,
-                  ),
-                  onPressed: () {},
-                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(color: Color(0xFFFFFFFF)),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      });
+                }),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.verified,
+                color: doc['verified'] == true ? Colors.green : Colors.blueGrey,
               ),
-            ));
+              onPressed: () {},
+            ),
+          ),
+        );
       },
-    );
-  }
-
-  Widget deleteBgItem() {
-    return Container(
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: 20),
-      color: Colors.red[600],
-      child: Icon(Icons.delete),
     );
   }
 
