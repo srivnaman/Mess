@@ -20,17 +20,17 @@ class _ComplaintState extends State<ComplaintA> {
         DocumentSnapshot doc = snapshot.data!.docs[index];
 
         return Dismissible(
-          key: Key(snapshot[index]),
+          key: Key(doc.id),
           onDismissed: (direction) {
             if (direction == DismissDirection.endToStart) {
               FirebaseFirestore.instance
                   .collection("complaints")
-                  .doc(snapshot.data!.docs[index]['id'])
+                  .doc(doc.id)
                   .delete();
             } else if (direction == DismissDirection.startToEnd) {
               FirebaseFirestore.instance
                   .collection("complaints")
-                  .doc(snapshot.data!.docs[index]['id'])
+                  .doc(doc.id)
                   .update({'verified': true});
             }
           },
