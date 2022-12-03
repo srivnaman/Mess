@@ -51,7 +51,6 @@ class _MenuPageState extends State<MenuPage> {
           .get()
           .then((res) {
         res.docs.forEach((documentSnapshot) async {
-          // print(documentSnapshot.reference);
           menuRequired = documentSnapshot.data()['food'].toString();
         });
       });
@@ -114,31 +113,34 @@ class _MenuPageState extends State<MenuPage> {
                     var menuRequired = await getMenu(selectedDay, selectedMeal);
                     if (selectedDay != null && selectedMeal != null) {
                       showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              child: AlertDialog(
-                                icon: Icon(
-                                  Icons.restaurant_menu,
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            child: AlertDialog(
+                              icon: Icon(
+                                Icons.restaurant_menu,
+                              ),
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(32.0))),
+                              title: Text("We are making.."),
+                              content: Container(
+                                height: 80.h,
+                                width: 500.w,
+                                child: Center(
+                                  child: Text(
+                                    menuRequired.toString(),
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 1, 56, 112),
+                                        fontFamily: 'Nunito'),
+                                    textAlign: TextAlign.justify,
+                                  ),
                                 ),
-                                elevation: 10,
-//                                 titlePadding: 40,
-//                                 contentPadding: 20,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(32.0))),
-                                title: Text("We are making.."),
-                                content: Text(
-                                  menuRequired.toString(),
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 1, 56, 112),
-//                                       fontSize: 1,
-
-                                      fontFamily: 'Nunito'),
-                                  textAlign: TextAlign.center,
-                                ),
-                                actions: [
-                                  TextButton(
+                              ),
+                              actions: [
+                                Center(
+                                  child: TextButton(
                                     style: TextButton.styleFrom(
                                       backgroundColor: Color(0xFF3F5C94),
                                       shape: RoundedRectangleBorder(
@@ -154,11 +156,13 @@ class _MenuPageState extends State<MenuPage> {
                                       style:
                                           TextStyle(color: Color(0xFFFFFFFF)),
                                     ),
-                                  )
-                                ],
-                              ),
-                            );
-                          });
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     }
                   },
                 )
