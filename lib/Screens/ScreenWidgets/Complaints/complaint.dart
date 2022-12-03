@@ -15,7 +15,7 @@ class Complaint extends StatefulWidget {
 
 class _ComplaintState extends State<Complaint> {
   bool isSubmitting = false;
-  final complaintController = TextEditingController();
+  final _complaintController = TextEditingController();
   String complaint = "";
   String type = "";
 
@@ -110,7 +110,7 @@ class _ComplaintState extends State<Complaint> {
                         color: Colors.white),
                     child: TextField(
                       style: TextStyle(fontFamily: ''),
-                      controller: complaintController,
+                      controller: _complaintController,
                       maxLines: 8,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -136,10 +136,10 @@ class _ComplaintState extends State<Complaint> {
                             setState(() {
                               isSubmitting = true;
                             });
-                            complaint = complaintController.text;
+                            complaint = _complaintController.text;
                             type = complaintType;
                             await _submitToDB(type);
-                            complaintController.clear();
+                            _complaintController.clear();
                             setState(() {
                               isSubmitting = false;
                             });

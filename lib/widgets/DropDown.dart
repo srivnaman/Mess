@@ -47,7 +47,9 @@ class _DropDownState extends State<DropDown> {
           ).toList(),
           dropdownMaxHeight: 140.h,
           dropdownDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.r),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(5.r),
+                bottomRight: Radius.circular(5.r)),
           ),
           onChanged: (val) {
             setState(

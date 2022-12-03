@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mess/Auth/widgets/errorMessage.dart';
 import 'package:mess/widgets/DropDown.dart';
 
 class MenuMPage extends StatefulWidget {
@@ -33,8 +34,6 @@ class _MenuMPageState extends State<MenuMPage> {
   String? selectedMeal;
   final _foodTextController = TextEditingController();
 
-
-
   void handleDay(value) {
     selectedDay = value;
   }
@@ -43,20 +42,29 @@ class _MenuMPageState extends State<MenuMPage> {
     selectedMeal = value;
   }
 
- void _updateDB(String meal,String day) async
- {
-   await FirebaseFirestore.instance.runTransaction((transaction) async {
-   await FirebaseFirestore.instance.collection('menu')
-       .where('meal', isEqualTo: meal).where('day',isEqualTo:day)
-       .get()
-       .then((res) {
-     res.docs.forEach((documentSnapshot) async {
-      //  print(documentSnapshot.reference);
-       await documentSnapshot.reference.update({'food':_foodTextController.text});
-     });
-   });
- });
- }
+  void _updateDB(String meal, String day) async {
+    await FirebaseFirestore.instance.runTransaction(
+      (transaction) async {
+        await FirebaseFirestore.instance
+            .collection('menu')
+            .where('meal', isEqualTo: meal)
+            .where('day', isEqualTo: day)
+            .get()
+            .then(
+          (res) {
+            res.docs.forEach(
+              (documentSnapshot) async {
+                await documentSnapshot.reference.update(
+                  {'food': _foodTextController.text},
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+    _foodTextController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +128,6 @@ class _MenuMPageState extends State<MenuMPage> {
                                   Icons.restaurant_menu,
                                 ),
                                 elevation: 10,
-//                                 titlePadding: 40,
-//                                 contentPadding: 20,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(32.0))),
@@ -139,42 +145,53 @@ class _MenuMPageState extends State<MenuMPage> {
                                   ),
                                 ),
                                 actions: [
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Color(0xFF3F5C94),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.r),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Color(0xFF3F5C94),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.r),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "Close",
+                                          style: TextStyle(
+                                              color: Color(0xFFFFFFFF)),
+                                        ),
                                       ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      "Close",
-                                      style:
-                                          TextStyle(color: Color(0xFFFFFFFF)),
-                                    ),
+                                      TextButton(
+                                        onPressed: () {
+                                          _updateDB(
+                                              selectedMeal!, selectedDay!);
+                                        },
+                                        child: Text(
+                                          "Save",
+                                          style: TextStyle(
+                                              color: Color(0xFFFFFFFF)),
+                                        ),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Color(0xFF3F5C94),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.r),
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  TextButton(
-                                    onPressed: (){_updateDB(selectedMeal!, selectedDay!);},
-                                    child: Text(
-                                      "Save",
-                                      style:
-                                          TextStyle(color: Color(0xFFFFFFFF)),
-                                    ),
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Color(0xFF3F5C94),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.r),
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
                             );
                           });
+                    } else {
+                      errorMessage.showError("Please Select a day and a meal.");
                     }
                   },
                 )

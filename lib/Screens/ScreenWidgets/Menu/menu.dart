@@ -27,7 +27,8 @@ class _MenuPageState extends State<MenuPage> {
     'Wednesday',
     'Thursday',
     'Friday',
-    'Saturday'
+    'Saturday',
+    'Everyday'
   ];
   String? selectedDay;
   String? selectedMeal;
