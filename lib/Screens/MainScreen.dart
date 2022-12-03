@@ -19,6 +19,8 @@ import 'ScreenWidgets/Menu/menuM.dart';
 import 'ScreenWidgets/Profile/profile.dart';
 
 class MainScreen extends StatefulWidget {
+  final User user;
+  MainScreen({required this.user});
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
@@ -82,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
           : role == 'Admin'
               ? ComplaintA()
               : Complaint(),
-      Profile(),
+      Profile(user: widget.user),
     ];
 
     return Container(

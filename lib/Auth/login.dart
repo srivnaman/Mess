@@ -31,10 +31,11 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
     User? user = FirebaseAuth.instance.currentUser;
+
     if (user!.emailVerified) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => MainScreen(user: user,),
         ),
       );
     }
@@ -211,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                             .pushReplacement(
                                                                           MaterialPageRoute(
                                                                             builder: (context) =>
-                                                                                MainScreen(),
+                                                                                MainScreen(user: user,),
                                                                           ),
                                                                         );
                                                                       }

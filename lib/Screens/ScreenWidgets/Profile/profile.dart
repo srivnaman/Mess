@@ -4,9 +4,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Auth/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  final User user;
+  Profile({required this.user});
   static const routeName = '/profile';
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  bool _isSigningOut = false;
+  String name = 'unknown';
+  String role = 'unkonwn';
+  String email = 'unknown';
+  getUserData() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    final currentUserData =
+    await FirebaseFirestore.instance.doc('users/' + uid!).get();
+    //email = currentUserData['email'];
+    name = currentUserData['name'];
+    role = currentUserData['role'];
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,14 +76,62 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 30.h,
                   ),
                   //ProfilePhotoContainer(),
+                  Text(
+                    "${widget.user.displayName}",
+                    style:TextStyle(
+                      color: Colors.white70,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Open Sans',
+                    ),
+                  ),
 
                   SizedBox(
-                    height: 10.h,
+                    height: 20.h,
                   ),
-                  SignoutOption(),
+
+                  Text(
+                    "${role}",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Open Sans',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  //userDetails("${role}"),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+
+
+                  // Text(
+                  //   "${email}",
+                  //   style: TextStyle(
+                  //       color: Color(0xFBD85585),
+                  //       fontSize: 19.sp,
+                  //       fontWeight: FontWeight.w600),
+                  // ),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(250,8,8,8),
+                    child: Row(
+                      children: [
+                        SignoutOption(),
+                      ],
+                    ),
+                  ),
 
                   //MonthlyDashboard(20.h, 500.w),
                 ],
@@ -93,237 +170,36 @@ class SignoutOption extends StatelessWidget {
         ),
       ],
     );
-
-    /*TextButton (
-      onPressed: () async{
-      await FirebaseAuth.instance.signOut();
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPage(),),
-      ),
-      }, */
-    //Widget: Widget)
   }
 }
 
-class ProfilePhotoContainer extends Profile {
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200.h,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Stack(
-            children: [
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 150.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.r),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      Text(
-                        'Mr. Bean',
-                        style: TextStyle(
-                          color: Color.fromRGBO(39, 105, 171, 1),
-                          fontFamily: 'Nunito',
-                          fontSize: 37.sp,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://nextluxury.com/wp-content/uploads/funny-profile-pictures-10.jpg'),
-                    radius: 100.r,
-                    //child: Text('Eevee'),
-                    //foregroundColor: Colors.red,
-                  ),
-                ),
 
-                // child: Center(
-                //   child: Container(
-                //     height: 80.h,
-                //     width: 80.h,
-                //     decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         image: DecorationImage(
-                //             image: NetworkImage(
-                //                 'https://nextluxury.com/wp-content/uploads/funny-profile-pictures-10.jpg'))),
-                //   ),
-                // ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
 
-/*class MonthlyDashboard extends StatelessWidget {
-  var thisHeight;
-  var thisWidth;
+// Container(
+//   height: 25.h,
+//   width: 150.h,
+//   decoration: BoxDecoration(
+//     //color: Colors.blueAccent,
+//     borderRadius: BorderRadius.circular(15),
+//     border: Border.all(
+//       width: 0.5,
+//       color: Colors.black
+//     ),
+//     boxShadow: [BoxShadow(blurRadius: 1, spreadRadius: 1)]
+//   ),
+//   child: Center(
+//     child: Text(
+//       "${role}",
+//       //overflow: TextOverflow.ellipsis,
+//       style: TextStyle(
+//         color: Colors.white70,
+//         fontSize: 19.sp,
+//         fontWeight: FontWeight.w600,
+//         fontStyle: FontStyle.italic,
+//         fontFamily: 'Open Sans',
+//       ),
+//     ),
+//   ),
+// ),
 
-  MonthlyDashboard(this.thisHeight, this.thisWidth);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200.h,
-      width: thisWidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30.r),
-        color: Colors.white,
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20.h,
-            ),
-            Text(
-              'My Orders',
-              style: TextStyle(
-                color: Color.fromRGBO(39, 105, 171, 1),
-                fontSize: 27.sp,
-                fontFamily: 'Nunito',
-              ),
-            ),
-            Divider(
-              thickness: 2.5.h,
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Container(
-              height: 50.h,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Container(
-              height: 50.h,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
-
-// Orders and pending
-/*Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text(
-                                              'Orders',
-                                              style: TextStyle(
-                                                color: Colors.grey[700],
-                                                fontFamily: 'Nunito',
-                                                fontSize: 25,
-                                              ),
-                                            ),
-                                            Text(
-                                              '10',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    39, 105, 171, 1),
-                                                fontFamily: 'Nunito',
-                                                fontSize: 25,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 25,
-                                            vertical: 8,
-                                          ),
-                                          child: Container(
-                                            height: 50,
-                                            width: 3,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              'Pending',
-                                              style: TextStyle(
-                                                color: Colors.grey[700],
-                                                fontFamily: 'Nunito',
-                                                fontSize: 25,
-                                              ),
-                                            ),
-                                            Text(
-                                              '1',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    39, 105, 171, 1),
-                                                fontFamily: 'Nunito',
-                                                fontSize: 25,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )*/
-
-/*
-class Profile extends StatelessWidget {
-  static const routeName = '/profile';
-  const Profile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Divider(color: Color.fromARGB(255, 255, 255, 255)),
-          Container(
-            width: 250.w,
-            child: Column(
-              children: [Text("Profile")],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-*/
