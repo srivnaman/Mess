@@ -89,7 +89,7 @@ class _ComplaintState extends State<Complaint> {
                   DropDown(
                     items: complaintTypeList,
                     handleDropDown: handleComplaint,
-                    text: "Select Complaint",
+                    text: "Select Complaint Type",
                   ),
                   SizedBox(
                     height: 30.h,
