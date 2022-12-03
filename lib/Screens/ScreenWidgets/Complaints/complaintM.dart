@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/Widgets/complaintChart.dart';
-import 'package:mess/Auth/widgets/errorMessage.dart';
 
 class ComplaintM extends StatefulWidget {
   static const routeName = '/complaintM';
@@ -26,57 +25,65 @@ class _ComplaintState extends State<ComplaintM> {
             leading: Icon(Icons.food_bank_rounded,
                 color: doc['status'] ? Colors.green[600] : Colors.red[600]),
             title: TextButton(
-                child: Text(
-                  doc['complaint'],
-                  overflow: TextOverflow.ellipsis,
-                ),
-                onPressed: () {
-                  String fullComplaint = doc['complaint'];
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Container(
-                          child: AlertDialog(
-                            icon: Icon(
-                              Icons.report_problem,
-                            ),
-                            elevation: 10,
-//                                 titlePadding: 40,
-//                                 contentPadding: 20,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(32.0))),
-                            title: Text("Complaint"),
-                            content: Text(
+              child: Text(
+                doc['complaint'],
+                overflow: TextOverflow.ellipsis,
+              ),
+              onPressed: () {
+                String fullComplaint = doc['complaint'];
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Center(
+                      child: AlertDialog(
+                        icon: Icon(
+                          Icons.report_problem,
+                        ),
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(32.0),
+                          ),
+                        ),
+                        title: Text("Complaint"),
+                        content: Container(
+                          height: 100.h,
+                          width: 500.w,
+                          child: SingleChildScrollView(
+                            child: Text(
                               fullComplaint,
                               style: TextStyle(
                                   color: Color.fromARGB(255, 1, 56, 112),
-//                                       fontSize: 1,
-
                                   fontFamily: 'Nunito'),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.justify,
                             ),
-                            actions: [
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor: Color(0xFF3F5C94),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.r),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Close",
-                                  style: TextStyle(color: Color(0xFFFFFFFF)),
-                                ),
-                              )
-                            ],
                           ),
-                        );
-                      });
-                }),
+                        ),
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Color(0xFF3F5C94),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Close",
+                              style: TextStyle(
+                                color: Color(0xFFFFFFFF),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
             trailing: IconButton(
               icon: Icon(
                 Icons.verified,
@@ -124,7 +131,9 @@ class _ComplaintState extends State<ComplaintM> {
                         height: 10.h,
                       ),
                       snapshot.hasData
-                          ? Expanded(child: showList(snapshot))
+                          ? Expanded(
+                              child: showList(snapshot),
+                            )
                           : Column(
                               children: [
                                 SizedBox(
