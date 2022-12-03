@@ -62,12 +62,15 @@ class _ComplaintState extends State<Complaint> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
-        },
+        }
+      },
+      child: SingleChildScrollView(
         child: Container(
           child: Column(
             children: [

@@ -23,9 +23,9 @@ class _LoginPageState extends State<LoginPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
 
-  final _focusName = FocusNode();
-  final _focusEmail = FocusNode();
-  final _focusPassword = FocusNode();
+  // final _focusName = FocusNode();
+  // final _focusEmail = FocusNode();
+  // final _focusPassword = FocusNode();
 
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
@@ -45,9 +45,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _focusName.unfocus();
-        _focusEmail.unfocus();
-        _focusPassword.unfocus();
+        // _focusName.unfocus();
+        // _focusEmail.unfocus();
+        // _focusPassword.unfocus();
       },
       child: SafeArea(
         child: Scaffold(
@@ -165,10 +165,10 @@ class _LoginPageState extends State<LoginPage> {
                                                                   ),
                                                                   onPressed:
                                                                       () async {
-                                                                    _focusEmail
-                                                                        .unfocus();
-                                                                    _focusPassword
-                                                                        .unfocus();
+                                                                    // _focusEmail
+                                                                    //     .unfocus();
+                                                                    // _focusPassword
+                                                                    //     .unfocus();
 
                                                                     if (_formKey
                                                                         .currentState!

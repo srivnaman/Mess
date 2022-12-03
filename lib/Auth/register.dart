@@ -26,9 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
 
-  final _focusName = FocusNode();
-  final _focusEmail = FocusNode();
-  final _focusPassword = FocusNode();
+  // To be implemented
+  // final _focusName = FocusNode();
+  // final _focusEmail = FocusNode();
+  // final _focusPassword = FocusNode();
 
   void _handleRole(var value) {
     role = value;
@@ -61,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        // To be implemented
       },
       child: SafeArea(
         child: Scaffold(
