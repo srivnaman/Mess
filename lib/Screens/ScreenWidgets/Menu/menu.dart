@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/widgets/DropDown.dart';
+import 'package:mess/Auth/widgets/errorMessage.dart';
 
 class MenuPage extends StatefulWidget {
   static const routeName = '/menu';
@@ -13,6 +14,7 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  bool _isProcessing = false;
   String? categoryValue;
   final List<String> mealList = [
     'Breakfast',
@@ -108,63 +110,78 @@ class _MenuPageState extends State<MenuPage> {
                       borderRadius: BorderRadius.circular(5.r),
                     ),
                   ),
-                  child: Text("See Menu"),
-                  onPressed: () async {
-                    var menuRequired = await getMenu(selectedDay, selectedMeal);
-                    if (selectedDay != null && selectedMeal != null) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            child: AlertDialog(
-                              icon: Icon(
-                                Icons.restaurant_menu,
-                              ),
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(32.0))),
-                              title: Text("We are making.."),
-                              content: Container(
-                                height: 80.h,
-                                width: 500.w,
-                                child: Center(
-                                  child: Text(
-                                    menuRequired.toString(),
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 1, 56, 112),
-                                        fontFamily: 'Nunito'),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ),
-                              ),
-                              actions: [
-                                Center(
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Color(0xFF3F5C94),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.r),
+                  child: _isProcessing
+                      ? CircularProgressIndicator()
+                      : Text("See Menu"),
+                  onPressed: _isProcessing
+                      ? null
+                      : () async {
+                          setState(() {
+                            _isProcessing = true;
+                          });
+                          var menuRequired =
+                              await getMenu(selectedDay, selectedMeal);
+                          setState(() {
+                            _isProcessing = false;
+                          });
+                          if (selectedDay != null && selectedMeal != null) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  child: AlertDialog(
+                                    icon: Icon(
+                                      Icons.restaurant_menu,
+                                    ),
+                                    elevation: 10,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(32.0))),
+                                    title: Text("We are making.."),
+                                    content: Container(
+                                      height: 80.h,
+                                      width: 500.w,
+                                      child: Center(
+                                        child: Text(
+                                          menuRequired.toString(),
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 1, 56, 112),
+                                              fontFamily: 'Nunito'),
+                                          textAlign: TextAlign.justify,
+                                        ),
                                       ),
                                     ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      "Close",
-                                      style:
-                                          TextStyle(color: Color(0xFFFFFFFF)),
-                                    ),
+                                    actions: [
+                                      Center(
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Color(0xFF3F5C94),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.r),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Close",
+                                            style: TextStyle(
+                                                color: Color(0xFFFFFFFF)),
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          );
+                                );
+                              },
+                            );
+                          } else {
+                            errorMessage
+                                .showError("Please Select a day and a meal.");
+                          }
                         },
-                      );
-                    }
-                  },
                 )
               ],
             ),

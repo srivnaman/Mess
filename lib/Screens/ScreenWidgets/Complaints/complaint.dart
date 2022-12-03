@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mess/Auth/widgets/errorMessage.dart';
 import 'package:mess/widgets/DropDown.dart';
 
 class Complaint extends StatefulWidget {
@@ -138,7 +139,10 @@ class _ComplaintState extends State<Complaint> {
                             });
                             complaint = _complaintController.text;
                             type = complaintType;
-                            await _submitToDB(type);
+                            complaint.length < 5
+                                ? errorMessage.showError(
+                                    "Please enter a minimum of 5 characters!")
+                                : await _submitToDB(type);
                             _complaintController.clear();
                             setState(() {
                               isSubmitting = false;
