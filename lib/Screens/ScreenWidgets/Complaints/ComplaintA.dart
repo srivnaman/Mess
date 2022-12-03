@@ -65,30 +65,36 @@ class _ComplaintState extends State<ComplaintA> {
                           content: Container(
                             height: 100.h,
                             width: 500.w,
-                            child: SingleChildScrollView(
-                              child: Text(
-                                fullComplaint,
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 1, 56, 112),
-                                    fontFamily: 'Nunito'),
-                                textAlign: TextAlign.justify,
+                            child: Center(
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  fullComplaint,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 1, 56, 112),
+                                      fontFamily: 'Nunito'),
+                                  textAlign: TextAlign.justify,
+                                ),
                               ),
                             ),
                           ),
                           actions: [
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0xFF3F5C94),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.r),
+                            Center(
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Color(0xFF3F5C94),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                  ),
                                 ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                "Close",
-                                style: TextStyle(color: Color(0xFFFFFFFF)),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                  ),
+                                ),
                               ),
                             )
                           ],

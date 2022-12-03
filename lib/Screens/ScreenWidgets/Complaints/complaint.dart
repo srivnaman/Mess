@@ -63,102 +63,108 @@ class _ComplaintState extends State<Complaint> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            Divider(color: Color.fromARGB(255, 255, 255, 255)),
-            Container(
-              width: 280.w,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Complaint",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  DropDown(
-                    items: complaintTypeList,
-                    handleDropDown: handleComplaint,
-                    text: "Select Complaint Type",
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Write a detailed explanation",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.r),
-                        color: Colors.white),
-                    child: TextField(
-                      style: TextStyle(fontFamily: ''),
-                      controller: _complaintController,
-                      maxLines: 8,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.r),
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          currentFocus.unfocus();
+        },
+        child: Container(
+          child: Column(
+            children: [
+              Divider(color: Color.fromARGB(255, 255, 255, 255)),
+              Container(
+                width: 280.w,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40.h,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Complaint",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        hintText: 'Enter a full query',
-                      ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF3F5C94),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.r),
-                      ),
+                    SizedBox(
+                      height: 10.h,
                     ),
-                    onPressed: isSubmitting
-                        ? null
-                        : () async {
-                            setState(() {
-                              isSubmitting = true;
-                            });
-                            complaint = _complaintController.text;
-                            type = complaintType;
-                            complaint.length < 5
-                                ? errorMessage.showError(
-                                    "Please enter a minimum of 5 characters!")
-                                : await _submitToDB(type);
-                            _complaintController.clear();
-                            setState(() {
-                              isSubmitting = false;
-                            });
-                          },
-                    child: isSubmitting
-                        ? CircularProgressIndicator()
-                        : Text(
-                            'Submit',
-                            style: TextStyle(color: Color(0xFFFFFFFF)),
+                    DropDown(
+                      items: complaintTypeList,
+                      handleDropDown: handleComplaint,
+                      text: "Select Complaint Type",
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Write a detailed explanation",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          color: Colors.white),
+                      child: TextField(
+                        style: TextStyle(fontFamily: ''),
+                        controller: _complaintController,
+                        maxLines: 8,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                          hintText: 'Enter a full query',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF3F5C94),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.r),
+                        ),
+                      ),
+                      onPressed: isSubmitting
+                          ? null
+                          : () async {
+                              setState(() {
+                                isSubmitting = true;
+                              });
+                              complaint = _complaintController.text;
+                              type = complaintType;
+                              complaint.length < 5
+                                  ? errorMessage.showError(
+                                      "Please enter a minimum of 5 characters!")
+                                  : await _submitToDB(type);
+                              _complaintController.clear();
+                              setState(() {
+                                isSubmitting = false;
+                              });
+                            },
+                      child: isSubmitting
+                          ? CircularProgressIndicator()
+                          : Text(
+                              'Submit',
+                              style: TextStyle(color: Color(0xFFFFFFFF)),
+                            ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

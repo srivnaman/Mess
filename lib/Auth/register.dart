@@ -61,9 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _focusName.unfocus();
-        _focusEmail.unfocus();
-        _focusPassword.unfocus();
+        FocusScope.of(context).unfocus();
       },
       child: SafeArea(
         child: Scaffold(

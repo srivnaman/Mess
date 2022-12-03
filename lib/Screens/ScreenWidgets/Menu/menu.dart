@@ -62,16 +62,30 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Divider(color: Color.fromARGB(255, 255, 255, 255)),
-          Container(
-            width: 250.w,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 35.w),
+          child: Container(
             child: Column(
               children: [
                 SizedBox(
                   height: 30.h,
+                ),
+                Text(
+                  "Select a Day",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                DropDown(
+                  items: dayList,
+                  handleDropDown: handleDay,
+                  text: "Select Day",
+                ),
+                SizedBox(
+                  height: 20.h,
                 ),
                 Text(
                   "Select a Meal",
@@ -87,21 +101,6 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 SizedBox(
                   height: 20.h,
-                ),
-                Text(
-                  "Select Day",
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                DropDown(
-                  items: dayList,
-                  handleDropDown: handleDay,
-                  text: "Select Day",
-                ),
-                SizedBox(
-                  height: 10.h,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -185,9 +184,9 @@ class _MenuPageState extends State<MenuPage> {
                 )
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

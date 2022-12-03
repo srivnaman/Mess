@@ -68,16 +68,30 @@ class _MenuMPageState extends State<MenuMPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Divider(color: Color.fromARGB(255, 255, 255, 255)),
-          Container(
-            width: 250.w,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 35.w),
+          child: Container(
             child: Column(
               children: [
                 SizedBox(
                   height: 30.h,
+                ),
+                Text(
+                  "Select a Day",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                DropDown(
+                  items: dayList,
+                  handleDropDown: handleDay,
+                  text: "Select Day",
+                ),
+                SizedBox(
+                  height: 20.h,
                 ),
                 Text(
                   "Select a Meal",
@@ -93,21 +107,6 @@ class _MenuMPageState extends State<MenuMPage> {
                 ),
                 SizedBox(
                   height: 20.h,
-                ),
-                Text(
-                  "Select Day",
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                DropDown(
-                  items: dayList,
-                  handleDropDown: handleDay,
-                  text: "Select Day",
-                ),
-                SizedBox(
-                  height: 10.h,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -131,17 +130,24 @@ class _MenuMPageState extends State<MenuMPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(32.0))),
-                                title: Text("Change Required Menu To:"),
-                                content: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 30.0, right: 30.0),
-                                  child: TextField(
-                                    controller: _foodTextController,
-                                    decoration: InputDecoration(
-                                      hintText: "Add New Menu",
-                                      border: InputBorder.none,
+                                title: Text(
+                                  "Change Required Menu To:",
+                                  style: TextStyle(fontSize: 15.sp),
+                                ),
+                                content: Container(
+                                  height: 80.h,
+                                  width: 500.w,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 30.0, right: 30.0),
+                                    child: TextField(
+                                      controller: _foodTextController,
+                                      decoration: InputDecoration(
+                                        hintText: "Add New Menu",
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: 8,
                                     ),
-                                    maxLines: 8,
                                   ),
                                 ),
                                 actions: [
@@ -197,9 +203,9 @@ class _MenuMPageState extends State<MenuMPage> {
                 )
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }
