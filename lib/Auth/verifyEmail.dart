@@ -46,7 +46,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
               user = await FirebaseAuth.instance.currentUser!;
               if (user.emailVerified) {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => MainScreen()),
+                  MaterialPageRoute(builder: (context) => MainScreen(user: user,)),
                 );
               } else {
                 errorMessage.showError("Please verify your email first!");
