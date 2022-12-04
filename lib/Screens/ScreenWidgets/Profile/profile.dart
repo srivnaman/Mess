@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 
 class Profile extends StatefulWidget {
   final User user;
@@ -64,17 +65,35 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 10.h,
                   ),
-
-                  Center(
-                    child: CircleAvatar(
-                      radius: 63.r,
-                      backgroundColor: Color(0xFF000A12),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('Assets/Images/user.png'),
-                        radius: 60.r,
-                      ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    // enable tooltip feature with role and image
+                    // same as example 7
+                    // but you can add parameter img = 'your_img'
+                    // background color and initial name will be replaced with the image
+                    child: ProfilePicture(
+                      name: "${widget.user.displayName}",
+                      role: "${role}",
+                      radius: 50.r,
+                      fontsize: 30,
+                      random: true,
+                      tooltip: true,
+                      //img: 'https://avatars.githubusercontent.com/u/37553901?v=4',
                     ),
                   ),
+
+                  // Center(
+                  //   child: CircleAvatar(
+                  //     radius: 63.r,
+                  //     backgroundColor: Color(0xFF000A12),
+                  //     child: CircleAvatar(
+                  //       backgroundImage: AssetImage('Assets/Images/user.png'),
+                  //       radius: 60.r,
+                  //     ),
+                  //   ),
+                  // ),
+
+
                   SizedBox(
                     height: 30.h,
                   ),
