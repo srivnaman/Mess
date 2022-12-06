@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,16 +23,27 @@ class _ComplaintState extends State<ComplaintA> {
 
         return Dismissible(
           key: Key(doc.id),
-          onDismissed: (direction) {
+          onDismissed: (direction) async {
             if (direction == DismissDirection.endToStart) {
-              FirebaseFirestore.instance
-                  .collection("complaints")
-                  .doc(doc.id)
-                  .delete();
+              await FirebaseFirestore.instance
+                  .runTransaction((transaction) async {
+                await FirebaseFirestore.instance
+                    .collection("complaints")
+                    .doc(doc.id)
+                    .delete();
+                String type = doc.get('type');
+                var complaintCountDocumentRef = await FirebaseFirestore.instance
+                    .collection('complaintsCount')
+                    .doc('7av1p8pWqBb7iPWZk0Hd');
+                var complaintCountDocument =
+                    await transaction.get(complaintCountDocumentRef);
+                await transaction.update(complaintCountDocumentRef,
+                    {type: complaintCountDocument[type] - 1});
+              });
             } else if (direction == DismissDirection.startToEnd) {
               FirebaseFirestore.instance
-                  .collection("complaints")
-                  .doc(doc.id)
+                  .collection("complaintsCount")
+                  .doc("doc.id")
                   .update({'verified': true});
             }
           },
