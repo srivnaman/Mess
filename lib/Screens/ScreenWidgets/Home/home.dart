@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
       var today = DateFormat('EEEE').format(widget.day);
       await FirebaseFirestore.instance.collection('orders').add(
         {
+          'name': curUser?.displayName,
           'meal': meal,
           'day': today,
           'qty': int.parse(selectedQty),
