@@ -279,6 +279,7 @@ class _HomeState extends State<Home> {
                                                     });
                                                     await _submitToDB(
                                                         selectedMeal);
+                                                    await getMyOrder();
                                                     setState(() {
                                                       isSubmitting = false;
                                                       errorMessage
