@@ -7,6 +7,15 @@ import 'package:mess/widgets/DropDown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
+class OrderDetails{
+  String meal;
+  String day;
+  var date;
+  int qty;
+  OrderDetails(this.meal,  this.day , this.date, this.qty);
+}
+
 class Home extends StatefulWidget {
   static const routeName = '/home';
   var day = DateTime.now();
@@ -18,6 +27,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List <OrderDetails> ORDERS = [];
+
   final List<String> mealList = [
     'Breakfast',
     'Lunch',
@@ -49,108 +60,206 @@ class _HomeState extends State<Home> {
 
         },
       );
-      // var orderCountDocumentRef = await FirebaseFirestore.instance
-      //     .collection('ordersCount')
-      //     .doc('TODO LATER');
-      // var orderCountDocument = await transaction.get(orderCountDocumentRef);
-      // await transaction
-      //     .update(orderCountDocumentRef, {type: orderCountDocument[meal] + qty});
     });
   }
+
+  var itemsData;
+  //List <OrderDetails> ORDERS = [];
+  Future<void> getMyOrder() async {
+    print("#######################################################################3333");
+    ORDERS = [];
+    String myOrders =
+        "Sorry! We are experiencing some Technical Difficulties...PLEASE mail us AT 20bds064@iiitdwd.ac.in";
+
+
+  var  orderRef  =  await FirebaseFirestore.instance.collection('orders');
+  var orderQuery =  await orderRef.where('uid',isEqualTo: curUser!.uid).get()
+      .then((QuerySnapshot querySnapshot) => querySnapshot.docs.forEach((doc) {
+        OrderDetails oD = new OrderDetails(doc["meal"], doc["day"], doc["date"], doc["qty"]);
+        ORDERS.add(oD);
+        print(ORDERS.length);
+
+
+  }));
+  setState(() {
+    print("#####");
+      print(ORDERS.length);
+  });
+  //ORDERS;
+  }
+
+  //List<OrderDetails> myor = getMyOrder();
+  //getMyOrder()
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMyOrder();
+  }
+  // where('uid',isEqualTo: curUser!.uid).get()
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 20.h,
-        ),
+    return StreamBuilder<QuerySnapshot>(
+      stream:  FirebaseFirestore.instance.collection('orders').snapshots(),
 
-        SizedBox(
-          height: 30.h,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              color: Colors.white,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          // DocumentSnapshot doc = snapshot.data!.docs[0];
+          // numOthers = doc['Other'];
+          // numMessCleanliness = doc['Cleanliness issue'];
+          // numFoodQuality = doc['Food quality issue'];
+          // numFoodServing = doc['Food serving issue'];
+        }
+
+
+        return Column(
+          children: [
+            SizedBox(
+              height: 20.h,
             ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10.h,
+
+            SizedBox(
+              height: 30.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Text(
+                        'My Orders',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 56, 112),
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Nunito',
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1.0.h,
+                        color: Colors.blueGrey,
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      //getPostsData(),
+
+                      // Container(
+                      //   height: 30.h,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.grey,
+                      //     borderRadius: BorderRadius.circular(20.r),
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //     children: [
+                      //       Text(
+                      //         "Sunday",
+                      //         style: TextStyle(
+                      //           color: Colors.blueAccent,
+                      //           fontSize: 20.sp,
+                      //           fontWeight: FontWeight.bold,
+                      //           fontFamily: 'Nunito',
+                      //         ),
+                      //       ),
+                      //       Text(
+                      //         "${mealList[0]}",
+                      //         style: TextStyle(
+                      //           color: Colors.white70,
+                      //           fontSize: 20.sp,
+                      //           fontWeight: FontWeight.bold,
+                      //           fontFamily: 'Nunito',
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      SingleChildScrollView(
+                        child: Container(
+                          height: 100.h,
+                          // decoration: BoxDecoration(
+                          //   color: Colors.grey,
+                          //   borderRadius: BorderRadius.circular(20.r),
+                          // ),
+                          child: ListView.builder(
+                            itemCount: ORDERS.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  Text(ORDERS[index].meal),
+                                  Text(ORDERS[index].qty.toString()),
+
+                                  // Text(ORDERS[index].date),
+                                ],
+                              );
+
+                            },
+                          )
+                          ,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'My Orders',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 1, 56, 112),
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito',
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1.0.h,
-                    color: Colors.blueGrey,
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Container(
-                    height: 30.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Container(
-                    height: 30.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-        SizedBox(
-          height: 30.h,
-        ),
+            SizedBox(height: 30,),
 
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF3F5C94),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.r),
+            // Text(
+            //   "${getMyOrder()}",
+            //   style: TextStyle(
+            //     color: Colors.white70,
+            //     fontSize: 20.sp,
+            //     fontWeight: FontWeight.bold,
+            //     fontFamily: 'Nunito',
+            //   ),
+            // ),
+            SizedBox(
+              height: 30.h,
             ),
-          ),
-          child: Text("Place Today's Order"),
-          onPressed: () async {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return Container(
-                      child: AlertDialog(
-                        icon: Icon(
-                          Icons.restaurant_menu_outlined,
-                        ),
-                        elevation: 10,
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF3F5C94),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.r),
+                ),
+              ),
+              child: Text("Place Today's Order"),
+              onPressed: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          child: AlertDialog(
+                            icon: Icon(
+                              Icons.restaurant_menu_outlined,
+                            ),
+                            elevation: 10,
 //                                 titlePadding: 40,
 //                                 contentPadding: 20,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(30.0))),
-                        title: Text("Today is " +"${DateFormat('EEEE').format(widget.day)}" ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(30.0))),
+                            title: Text("Today is " +"${DateFormat('EEEE').format(widget.day)}" ),
 //                         content: Text(
 //                           menuRequired.toString(),
 //                           style: TextStyle(
@@ -160,96 +269,84 @@ class _HomeState extends State<Home> {
 //                               fontFamily: 'Nunito'),
 //                           textAlign: TextAlign.center,
 //                         ),
-                          content: Container(
-                            height: 100.h,
-                            width: 90.w,
-                            child: Column(
-                              children: [
-                                DropDown(
-                                  items: mealList,
-                                  handleDropDown: handleMeal,
-                                  text: "Select a Meal",
+                              content: Container(
+                                height: 100.h,
+                                width: 90.w,
+                                child: Column(
+                                  children: [
+                                    DropDown(
+                                      items: mealList,
+                                      handleDropDown: handleMeal,
+                                      text: "Select a Meal",
+                                    ),
+                                    SizedBox(height: 10.h
+                                      ,),
+                                    TextField(
+                                      controller: qtyController,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Enter a quantity',
+                                      ),
+
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 10.h
-                                  ,),
-                                TextField(
-                                  controller: qtyController,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: 'Enter a quantity',
-                                  ),
-
-                                ),
-                              ],
-                            ),
-                          ),
-
-
-
-                        actions: [
-
-
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: Color(0xFF3F5C94),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(5.r),
                               ),
-                            ),
-
-                          onPressed: isSubmitting
-                          ? null
-                              : () async {
-                          setState(() {
-                          isSubmitting = true;
-                          });
-                          quantity = int.parse(qtyController.text);
-                          meal = selectedMeal;
-                          await _submitToDB(meal);
-                          qtyController.clear();
-                          setState(() {
-                          isSubmitting = false;
-                          });
-                          },
-                            child: Text(
-                              "Ok 👍",
-                              style:
-                              TextStyle(color: Color(0xFFFFFFFF)),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  }
-                  );
-
-          },
-        )
 
 
-      ],
+
+                            actions: [
+
+
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Color(0xFF3F5C94),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(5.r),
+                                  ),
+                                ),
+
+                              onPressed: isSubmitting? null: ()
+                              async {
+                                setState(() {
+                                   isSubmitting = true;
+                                });
+                                quantity = int.parse(qtyController.text);
+                                meal = selectedMeal;
+                                await _submitToDB(meal);
+                                qtyController.clear();
+                                setState(() {
+                                    isSubmitting = false;
+                                 });
+                              },
+                                child: Text(
+                                  "Ok 👍",
+                                  style:
+                                  TextStyle(color: Color(0xFFFFFFFF)),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                      );
+
+              },
+            ),
+
+            //ElevatedButton(onPressed: onPressed, child: child)
+
+
+
+          ],
+        );
+      }
     );
   }
+
+
 }
-
-class myOrder extends StatefulWidget {
-  const myOrder({Key? key}) : super(key: key);
-
-  @override
-  State<myOrder> createState() => _myOrderState();
-}
-
-class _myOrderState extends State<myOrder> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(child: Text('hjhj'),);
-  }
-}
-
-
-
-
 
 
 
