@@ -67,17 +67,13 @@ class _ProfileState extends State<Profile> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    // enable tooltip feature with role and image
-                    // same as example 7
-                    // but you can add parameter img = 'your_img'
-                    // background color and initial name will be replaced with the image
                     child: ProfilePicture(
                       name: "${widget.user.displayName}",
                       role: "${role}",
                       radius: 50.r,
-                      fontsize: 30,
-                      random: true,
-                      tooltip: true,
+                      fontsize: 40,
+                      //random: true,
+                      //tooltip: true,
                       //img: 'https://avatars.githubusercontent.com/u/37553901?v=4',
                     ),
                   ),
@@ -95,7 +91,7 @@ class _ProfileState extends State<Profile> {
 
 
                   SizedBox(
-                    height: 30.h,
+                    height: 15.h,
                   ),
                   //ProfilePhotoContainer(),
                   Text(
@@ -110,7 +106,7 @@ class _ProfileState extends State<Profile> {
                   ),
 
                   SizedBox(
-                    height: 20.h,
+                    height: 15.h,
                   ),
 
                   Text(
@@ -123,13 +119,16 @@ class _ProfileState extends State<Profile> {
                       fontFamily: 'Open Sans',
                     ),
                   ),
+
                   SizedBox(
-                    height: 20.h,
+                    height: 15.h,
                   ),
-                  //userDetails("${role}"),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  Image.asset('Assets/Images/pngegg.png',
+                      height: 200,
+                      scale: 2.5,
+                      // color: Color.fromARGB(255, 15, 147, 59),
+                      opacity:
+                      const AlwaysStoppedAnimation<double>(0.5)),
 
 
                   // Text(
@@ -140,17 +139,19 @@ class _ProfileState extends State<Profile> {
                   //       fontWeight: FontWeight.w600),
                   // ),
                   SizedBox(
-                    height: 50.h,
+                    height: 5.h,
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(250,8,8,8),
-                    child: Row(
-                      children: [
-                        SignoutOption(),
-                      ],
-                    ),
-                  ),
+                  SignoutOption(),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.fromLTRB(250,8,8,8),
+                  //   child: Row(
+                  //     children: [
+                  //       SignoutOption(),
+                  //     ],
+                  //   ),
+                  //
 
                   //MonthlyDashboard(20.h, 500.w),
                 ],
