@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:mess/Screens/ScreenWidgets/Home/home.dart';
 import 'package:mess/widgets/DropDown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+class OrderDetails {
+  String meal;
+  String day;
+  var date;
+  int qty;
+  OrderDetails(this.meal, this.day, this.date, this.qty);
+}
 class HomeM extends StatefulWidget {
   const HomeM({Key? key}) : super(key: key);
 
@@ -58,7 +65,22 @@ class _HomeMState extends State<HomeM> {
                 onPressed: () async {
                   DateTime now = DateTime.now();
                   DateTime todayDate = DateTime(now.year, now.month, now.day);
+                  List<OrderDetails> Breakfast = [];
 
+                  var orderRef = await FirebaseFirestore.instance.collection('orders');
+                  var orderQuery = await orderRef
+                      .where('meal',isEqualTo: "Breakfast" )
+                      .where('date',isEqualTo: todayDate)
+                      .get()
+                      .then(
+                          (QuerySnapshot querySnapshot) => querySnapshot.docs.forEach((doc) {
+                        OrderDetails oD = new OrderDetails(
+                            doc["meal"], doc["day"], doc["date"], doc["qty"]);
+                        Breakfast.add(oD);
+                        print(doc["meal"]);
+                        }
+                      )
+                  );
 
                   showDialog(
                       context: context,
@@ -83,22 +105,25 @@ class _HomeMState extends State<HomeM> {
                                       thickness: 1.0.h,
                                       color: Colors.blueGrey,
                                     ),
-                                    Text("data"),
+
+                                    Text(
+                                  DateFormat('yyyy-MM-dd')
+                                      .format(Breakfast[0]
+                                      .date.toDate()
+                                  )
+                                ),
+
 
 
                                   ],
                                 ),
+
+                               ),
                               ),
                             ),
-
-
-
-
-                          ),
                         );
                       }
                   );
-
                 },
               ),
             ),
