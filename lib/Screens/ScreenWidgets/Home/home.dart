@@ -273,6 +273,7 @@ class _HomeState extends State<Home> {
                                                     errorMessage.showError(
                                                         "Quantity should be greater than 0");
                                                   } else {
+                                                    Navigator.of(context).pop();
                                                     setState(() {
                                                       isSubmitting = true;
                                                     });
