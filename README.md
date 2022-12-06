@@ -12,7 +12,7 @@ This application automates and digitalizes various activities like:
 1. Login with Institute Mail ID 🏫
 2. Each user is provided with a role of either a Faculty/Student 👨‍🏫 or a Mess-Manager 👩‍🍳 or Admin
 3. User Lands on the Home Page once authentication is Succesful ✨
-4.
+4. Home Page allows user to track their recent transactions/orders and the their total expenses in the past month
 5. Menu Section allows Faculty to see any changes in the menu for entered Day and Meal, Mess-Managers can instead update the menu if there are any changes in the same 🍲
 6. Faculty can file Complaints in Complaint Section from NavBar , For Mess-Manager a list of filled complaints is shown instead
 7. User settings showcase the details of the user as registered with the institute and thus cannot be changed✅
@@ -20,6 +20,44 @@ This application automates and digitalizes various activities like:
 # Snapshots
 # How To Use the Project
 You need to configure firebase once you start this project. This can be done as follows:
+1. LogInto your firebase account by 
+            
+        firebase login:add yourEmail@example.com
+2. Configure Flutterfire 
+  
+       flutterfire-configure
+3. Select the required project from list of your firebase projects
+4. Choose Android and Web Application for platforms
+
+# How to Arrange Firebase Project
+
+MessApp
+   - complaints
+      - complaint {String}
+      - status {Boolean}
+      - type {String}
+      - uid {String}
+      - verified {Boolean}
+   - complaintsCount
+      - Cleanliness issue {Number}
+      - Food quality issue {Number}
+      - Food serving issue {Number}
+      - Food serving issue {Number}
+      - Other {Number}
+   - menu
+      - day {String}
+      - food {String}
+      - meal {String}
+   - orders
+      - date {Timestamp}
+      - day {String}
+      - meal {String}
+      - qty {Number}
+      - uid {String}
+   - users
+      - name {String}
+      - role {String}
+   
 
 # Pull Requests
 We welcome and encourage all pull requests. It usually will take us within 24-48 hours to respond to any issue or request. Here are some basic rules to follow to ensure timely addition of your request:
