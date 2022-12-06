@@ -19,13 +19,12 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool _isSigningOut = false;
   String name = 'unknown';
-  String role = 'unkonwn';
+  String? role;
   String email = 'unknown';
   getUserData() async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     final currentUserData =
-    await FirebaseFirestore.instance.doc('users/' + uid!).get();
-    //email = currentUserData['email'];
+        await FirebaseFirestore.instance.doc('users/' + uid!).get();
     name = currentUserData['name'];
     role = currentUserData['role'];
 
@@ -37,129 +36,103 @@ class _ProfileState extends State<Profile> {
     super.initState();
     getUserData();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      //fit: StackFit.expand,
-      children: [
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: ProfilePicture(
-                      name: "${widget.user.displayName}",
-                      role: "${role}",
-                      radius: 50.r,
-                      fontsize: 40,
-                      //random: true,
-                      //tooltip: true,
-                      //img: 'https://avatars.githubusercontent.com/u/37553901?v=4',
-                    ),
-                  ),
-
-                  // Center(
-                  //   child: CircleAvatar(
-                  //     radius: 63.r,
-                  //     backgroundColor: Color(0xFF000A12),
-                  //     child: CircleAvatar(
-                  //       backgroundImage: AssetImage('Assets/Images/user.png'),
-                  //       radius: 60.r,
-                  //     ),
-                  //   ),
-                  // ),
-
-
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  //ProfilePhotoContainer(),
-                  Text(
-                    "${widget.user.displayName}",
-                    style:TextStyle(
-                      color: Colors.white70,
-                      fontSize: 19.sp,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.italic,
-                      fontFamily: 'Open Sans',
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 15.h,
-                  ),
-
-                  Text(
-                    "${role}",
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 19.sp,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.italic,
-                      fontFamily: 'Open Sans',
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  Image.asset('Assets/Images/pngegg.png',
-                      height: 200,
-                      scale: 2.5,
-                      // color: Color.fromARGB(255, 15, 147, 59),
-                      opacity:
-                      const AlwaysStoppedAnimation<double>(0.5)),
-
-
-                  // Text(
-                  //   "${email}",
-                  //   style: TextStyle(
-                  //       color: Color(0xFBD85585),
-                  //       fontSize: 19.sp,
-                  //       fontWeight: FontWeight.w600),
-                  // ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-
-                  SignoutOption(),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.fromLTRB(250,8,8,8),
-                  //   child: Row(
-                  //     children: [
-                  //       SignoutOption(),
-                  //     ],
-                  //   ),
-                  //
-
-                  //MonthlyDashboard(20.h, 500.w),
-                ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.settings,
+                  color: Color.fromRGBO(255, 255, 255, 1),
+                ),
               ),
+            ],
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: ProfilePicture(
+              name: "${widget.user.displayName}",
+              radius: 50.r,
+              fontsize: 40,
             ),
           ),
-        )
-      ],
+          // Center(
+          //   child: CircleAvatar(
+          //     backgroundColor: Colors.black,
+          //     radius: 50.r,
+          //     backgroundImage: AssetImage('Assets/Images/user.png'),
+          //   ),
+          // ),
+          SizedBox(
+            height: 15.h,
+          ),
+          Text(
+            "${widget.user.displayName}",
+            style: TextStyle(
+              color: Color.fromARGB(230, 255, 255, 255),
+              fontSize: 19.sp,
+            ),
+          ),
+          SizedBox(
+              width: 140.w,
+              child: Divider(
+                color: Colors.white54,
+              )),
+          role == null
+              ? Text(
+                  "Loading..",
+                  style: TextStyle(
+                    color: Color.fromARGB(230, 255, 255, 255),
+                    fontSize: 15.sp,
+                  ),
+                )
+              : Text(
+                  "${role}",
+                  style: TextStyle(
+                    color: Color.fromARGB(230, 255, 255, 255),
+                    fontSize: 15.sp,
+                  ),
+                ),
+          SizedBox(
+            height: 35.h,
+          ),
+          Opacity(
+            opacity: 0.5,
+            child: Image.asset(
+              'Assets/Images/hot.png',
+              height: 75.h,
+              color: Color(0xFF4F5B62),
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Container(
+            width: 220.w,
+            child: Text(
+              "Come to think of it, throwing away food is one of the dumbest things we do.",
+              style: TextStyle(
+                  color: Color.fromRGBO(255, 255, 255, 0.5),
+                  fontStyle: FontStyle.italic),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          SignoutOption(),
+        ],
+      ),
     );
   }
 }
@@ -192,34 +165,3 @@ class SignoutOption extends StatelessWidget {
     );
   }
 }
-
-
-
-// Container(
-//   height: 25.h,
-//   width: 150.h,
-//   decoration: BoxDecoration(
-//     //color: Colors.blueAccent,
-//     borderRadius: BorderRadius.circular(15),
-//     border: Border.all(
-//       width: 0.5,
-//       color: Colors.black
-//     ),
-//     boxShadow: [BoxShadow(blurRadius: 1, spreadRadius: 1)]
-//   ),
-//   child: Center(
-//     child: Text(
-//       "${role}",
-//       //overflow: TextOverflow.ellipsis,
-//       style: TextStyle(
-//         color: Colors.white70,
-//         fontSize: 19.sp,
-//         fontWeight: FontWeight.w600,
-//         fontStyle: FontStyle.italic,
-//         fontFamily: 'Open Sans',
-//       ),
-//     ),
-//   ),
-// ),
-
-

@@ -184,7 +184,7 @@ class _ComplaintState extends State<ComplaintA> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      snapshot.hasData
+                      ((snapshot.hasData) && ((snapshot.data!.docs.length>0)))
                           ? Expanded(
                               child: showList(snapshot),
                             )
