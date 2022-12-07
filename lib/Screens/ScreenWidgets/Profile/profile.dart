@@ -43,20 +43,20 @@ class _ProfileState extends State<Profile> {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.settings,
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                ),
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     IconButton(
+          //       onPressed: () {},
+          //       icon: Icon(
+          //         Icons.settings,
+          //         color: Color.fromRGBO(255, 255, 255, 1),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           SizedBox(
-            height: 10.h,
+            height: 20.h,
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),

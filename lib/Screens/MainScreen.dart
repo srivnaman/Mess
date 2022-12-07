@@ -82,10 +82,10 @@ class _MainScreenState extends State<MainScreen> {
       Home(),
       role == 'Mess Manager' ? MenuMPage() : MenuPage(),
       role == 'Mess Manager'
-          ? Complaint()
+          ? ComplaintM()
           : role == 'Admin'
-              ? Complaint()
-              : Complaint(),
+              ? ComplaintA()
+              : ComplaintA(),
       Profile(user: widget.user),
     ];
 

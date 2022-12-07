@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
                           ),
                           SingleChildScrollView(
                             child: Container(
-                              height: 100.h,
+                              height: 150.h,
                               child: ListView.builder(
                                 itemCount: ORDERS.length,
                                 itemBuilder: (context, index) {
