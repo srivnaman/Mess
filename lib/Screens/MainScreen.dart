@@ -78,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-       role == 'Mess Manager' ? HomeM():
+       role == 'Mess Manager' ? Home():
       Home(),
       role == 'Mess Manager' ? MenuMPage() : MenuPage(),
       role == 'Mess Manager'
