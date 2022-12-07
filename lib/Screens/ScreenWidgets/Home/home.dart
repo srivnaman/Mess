@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
       var today = DateFormat('EEEE').format(widget.day);
       await FirebaseFirestore.instance.collection('orders').add(
         {
+          'name': curUser?.displayName,
           'meal': meal,
           'day': today,
           'qty': int.parse(selectedQty),
@@ -163,9 +164,16 @@ class _HomeState extends State<Home> {
                                               child: Text(ORDERS[index].meal)),
                                           SizedBox(
                                               width: 50.w,
-                                              child: Text(ORDERS[index]
-                                                  .date
-                                                  .toString())),
+                                              child: Text(
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .format(ORDERS[index]
+                                                      .date.toDate())
+                                                  )
+                                            // Text(ORDERS[index]
+                                              //     .date
+                                              //     .toString())
+                                          ),
+
                                           SizedBox(
                                               width: 20.w,
                                               child: Text(ORDERS[index]

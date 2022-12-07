@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/complaint.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/complaintM.dart';
 import 'package:mess/Screens/ScreenWidgets/Complaints/complaintA.dart';
+import 'package:mess/Screens/ScreenWidgets/Home/homeM.dart';
 
 import 'package:mess/widgets/GBottomNavBar.dart';
 
@@ -77,13 +78,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
+       role == 'Mess Manager' ? HomeM():
       Home(),
       role == 'Mess Manager' ? MenuMPage() : MenuPage(),
       role == 'Mess Manager'
-          ? ComplaintA()
+          ? Complaint()
           : role == 'Admin'
-              ? ComplaintA()
-              : ComplaintA(),
+              ? Complaint()
+              : Complaint(),
       Profile(user: widget.user),
     ];
 
