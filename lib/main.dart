@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       builder: (context, child) {
         return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Mess',
             theme: ThemeData(
               primarySwatch: Colors.blue,
