@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 40.h,
+                  height: 30.h,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 35.w),
@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
                           ),
                           SingleChildScrollView(
                             child: Container(
-                              height: 100.h,
+                              height: 150.h,
                               child: ListView.builder(
                                 itemCount: ORDERS.length,
                                 itemBuilder: (context, index) {
@@ -160,20 +160,17 @@ class _HomeState extends State<Home> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                              width: 80.w,
+                                              width: 120.w,
                                               child: Text(ORDERS[index].meal)),
                                           SizedBox(
-                                              width: 50.w,
+                                              width: 80.w,
                                               child: Text(
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(ORDERS[index]
-                                                      .date.toDate())
-                                                  )
-                                            // Text(ORDERS[index]
-                                              //     .date
-                                              //     .toString())
-                                          ),
-
+                                                DateFormat('yyyy-MM-dd').format(
+                                                  ORDERS[index].date.toDate(),
+                                                ),
+                                                style:
+                                                    TextStyle(fontSize: 10.sp),
+                                              )),
                                           SizedBox(
                                               width: 20.w,
                                               child: Text(ORDERS[index]
@@ -199,9 +196,6 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 30,
                 ),
                 SizedBox(
                   height: 30.h,
